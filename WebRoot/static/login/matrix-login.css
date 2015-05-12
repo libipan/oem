@@ -45,6 +45,7 @@ body {   padding: 0;    margin-top:0px;margin: 0px;}
 #logo, #loginbox {    width: 32%;    margin-left: auto;  margin-right: auto;   position: relative;}
 #logo img {  margin: 0 auto;    display: block;}
 #loginbox { overflow: hidden !important; z-index: 100;  text-align: center;  position: relative; margin-top:10%;}
+.bgPic { background:url('images/bg_pic.jpg') no-repeat;}
 
 /* #loginbox form{ width:100%; background:#2E363F; position:relative; top:0; left:0; } */
 #loginbox form{ width:100%; background-color: rgba(0, 0, 0, 0.5);  position:relative; top:0; left:0; }
@@ -59,7 +60,7 @@ body {   padding: 0;    margin-top:0px;margin: 0px;}
 #loginbox .main_input_box input{ height:29px; border:0px; display:inline-block; width:75%; line-height:28px;  margin-bottom:3px;}
 #loginbox .controls{ padding:0 20px;}
 #loginbox .control-group{ padding:20px 0; margin-bottom:0px;}
-.form-vertical, .form-actions {  margin-bottom: 0; background:none; border-top:1px solid #3f4954; }
+.form-vertical, .form-actions {  margin-bottom: 0; background:none; border-top:1px solid rgba(0, 0, 0, 0.5); }
 
 /* #loginbox .normal_text{ padding:15px 10px; text-align:center; font-size:14px; line-height:20px; background:#2E363F; color:#fff; } */
 

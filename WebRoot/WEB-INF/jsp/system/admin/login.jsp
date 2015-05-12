@@ -11,44 +11,38 @@
 <title>${pd.SYSNAME}</title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
 <link rel="stylesheet" href="static/login/bootstrap.min.css" />
 <link rel="stylesheet" href="static/login/css/camera.css" />
 <link rel="stylesheet" href="static/login/bootstrap-responsive.min.css" />
 <link rel="stylesheet" href="static/login/matrix-login.css" />
-<link href="static/login/font-awesome.css" rel="stylesheet" />
+<link rel="stylesheet" href="static/login/font-awesome.css" />
 <script type="text/javascript" src="static/js/jquery-1.5.1.min.js"></script>
-
 </head>
-<body>
-
-	<div
-		style="width:100%;text-align: center;margin: 0 auto;position: absolute;">
+<body class="bgPic">
+	<div style="width:100%;text-align: center;margin: 0 auto;position: absolute;">
 		<div id="loginbox">
-			<form action="" method="post" name="loginForm"
-				id="loginForm">
+			<form action="" method="post" name="loginForm" id="loginForm">
 				<div class="control-group normal_text">
 					<h3>
-						<img src="static/login/logo.png" alt="Logo" />
+						企业生产管理系统
+						<!-- <img src="static/login/logo.png" alt="Logo" /> -->
 					</h3>
 				</div>
 				<div class="control-group">
 					<div class="controls">
 						<div class="main_input_box">
-							<span class="add-on bg_lg"><i><img height="37"
-									src="static/login/user.png" /></i></span><input type="text"
-								name="loginname" id="loginname" value=""
-								placeholder="请输入用户名" />
+							<span class="add-on bg_lg">
+								<img height="37"  src="static/login/user.png" />
+							</span><input type="text" name="loginname" id="loginname" value="" placeholder="请输入用户名" />
 						</div>
 					</div>
 				</div>
 				<div class="control-group">
 					<div class="controls">
 						<div class="main_input_box">
-							<span class="add-on bg_ly"><i><img height="37"
-									src="static/login/suo.png" /></i></span><input type="password"
-								name="password" id="password" placeholder="请输入密码"
-								value="" />
+							<span class="add-on bg_ly">
+								<img height="37" src="static/login/suo.png" />
+							</span><input type="password" name="password" id="password" value="" placeholder="请输入密码" />
 						</div>
 					</div>
 				</div>
@@ -63,7 +57,7 @@
 				</div>
 				<div class="form-actions">
 					<div style="width:86%;padding-left:8%;">
-
+						<!--  验证码
 						<div style="float: left;">
 							<i><img src="static/login/yan.png" /></i>
 						</div>
@@ -75,44 +69,49 @@
 							<i><img style="height:22px;" id="codeImg" alt="点击更换"
 								title="点击更换" src="" /></i>
 						</div>
-
+						-->
+	
 						<span class="pull-right" style="padding-right:3%;"><a
 							href="javascript:quxiao();" class="btn btn-success">取消</a></span> <span
 							class="pull-right"><a onclick="severCheck();"
 							class="flip-link btn btn-info" id="to-recover">登录</a></span>
-
 					</div>
 				</div>
-
 			</form>
-
-
-			<div class="controls">
-				<div class="main_input_box">
-					<font color="white"><span id="nameerr">Copyright © FH
-							2100</span></font>
-				</div>
-			</div>
 		</div>
 	</div>
+	<!-- 隐藏背景 
 	<div id="templatemo_banner_slide" class="container_wapper">
 		<div class="camera_wrap camera_emboss" id="camera_slide">
 			<div data-src="static/login/images/banner_slide_01.jpg"></div>
 			<div data-src="static/login/images/banner_slide_02.jpg"></div>
 			<div data-src="static/login/images/banner_slide_03.jpg"></div>
 		</div>
-		<!-- #camera_wrap_3 -->
 	</div>
+	-->
 
 	<script type="text/javascript">
+		// 页面加载
+		$(document).ready(function() {
+			//changeCode();
+			//$("#codeImg").bind("click", changeCode);
+		});
+		// 监听键盘按下
+		$(document).keyup(function(event) {
+			// 回车键按下
+			if (event.keyCode == 13) {
+				$("#to-recover").trigger("click");// 登录
+			}
+		});
 	
-		//服务器校验
+		// 登录，服务器校验
 		function severCheck(){
 			if(check()){
 				
 				var loginname = $("#loginname").val();
 				var password = $("#password").val();
-				var code = "qq313596790fh"+loginname+",fh,"+password+"QQ978336446fh"+",fh,"+$("#code").val();
+				//var code = "qq313596790fh"+loginname+",fh,"+password+"QQ978336446fh"+",fh,"+$("#code").val();
+				var code = loginname+",lbp,"+password;
 				$.ajax({
 					type: "POST",
 					url: 'login_login',
@@ -131,7 +130,8 @@
 								time : 15
 							});
 							$("#loginname").focus();
-						}else if("codeerror" == data.result){
+						}
+						/*else if("codeerror" == data.result){
 							$("#code").tips({
 								side : 1,
 								msg : "验证码输入有误",
@@ -139,7 +139,8 @@
 								time : 15
 							});
 							$("#code").focus();
-						}else{
+						}*/
+						else{
 							$("#loginname").tips({
 								side : 1,
 								msg : "缺少参数",
@@ -152,25 +153,14 @@
 				});
 			}
 		}
-	
-		$(document).ready(function() {
-			changeCode();
-			$("#codeImg").bind("click", changeCode);
-		});
 
-		$(document).keyup(function(event) {
-			if (event.keyCode == 13) {
-				$("#to-recover").trigger("click");
-			}
-		});
-
+		// 切换验证码
+		function changeCode() {
+			$("#codeImg").attr("src", "code.do?t=" + genTimestamp());
+		}
 		function genTimestamp() {
 			var time = new Date();
 			return time.getTime();
-		}
-
-		function changeCode() {
-			$("#codeImg").attr("src", "code.do?t=" + genTimestamp());
 		}
 
 		//客户端校验
@@ -226,6 +216,7 @@
 			return true;
 		}
 
+		// 记住密码点击事件
 		function savePaw() {
 			if (!$("#saveid").attr("checked")) {
 				$.cookie('loginname', '', {
@@ -234,11 +225,10 @@
 				$.cookie('password', '', {
 					expires : -1
 				});
-				$("#loginname").val('');
-				$("#password").val('');
 			}
 		}
-
+		
+		// 保存cookie
 		function saveCookie() {
 			if ($("#saveid").attr("checked")) {
 				$.cookie('loginname', $("#loginname").val(), {
@@ -249,11 +239,14 @@
 				});
 			}
 		}
+		
+		// 取消按钮点击事件
 		function quxiao() {
 			$("#loginname").val('');
 			$("#password").val('');
 		}
 		
+		// DOM加载完成执行
 		jQuery(function() {
 			var loginname = $.cookie('loginname');
 			var password = $.cookie('password');
@@ -262,7 +255,7 @@
 				$("#loginname").val(loginname);
 				$("#password").val(password);
 				$("#saveid").attr("checked", true);
-				$("#code").focus();
+				//$("#code").focus();
 			}
 		});
 	</script>
