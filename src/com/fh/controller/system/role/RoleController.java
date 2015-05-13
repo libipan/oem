@@ -29,6 +29,7 @@ import com.fh.service.system.menu.MenuService;
 import com.fh.service.system.role.RoleService;
 import com.fh.util.AppUtil;
 import com.fh.util.Const;
+import com.fh.util.Jurisdiction;
 import com.fh.util.PageData;
 import com.fh.util.RightsHelper;
 import com.fh.util.Tools;
@@ -42,6 +43,7 @@ import com.fh.util.Tools;
 @RequestMapping(value="/role")
 public class RoleController extends BaseController {
 	
+	String menuUrl = "role.do"; //菜单地址(权限用)
 	@Resource(name="menuService")
 	private MenuService menuService;
 	@Resource(name="roleService")
@@ -57,8 +59,7 @@ public class RoleController extends BaseController {
 		try{
 			pd = this.getPageData();
 			String msg = pd.getString("msg");
-			roleService.updateQx(msg,pd);
-			
+			if(Jurisdiction.buttonJurisdiction(menuUrl, "edit")){roleService.updateQx(msg,pd);}
 			mv.setViewName("save_result");
 			mv.addObject("msg","success");
 		} catch(Exception e){
@@ -77,8 +78,7 @@ public class RoleController extends BaseController {
 		try{
 			pd = this.getPageData();
 			String msg = pd.getString("msg");
-			roleService.updateKFQx(msg,pd);
-			
+			if(Jurisdiction.buttonJurisdiction(menuUrl, "edit")){roleService.updateKFQx(msg,pd);}
 			mv.setViewName("save_result");
 			mv.addObject("msg","success");
 		} catch(Exception e){
@@ -97,8 +97,7 @@ public class RoleController extends BaseController {
 		try{
 			pd = this.getPageData();
 			String msg = pd.getString("msg");
-			roleService.gysqxc(msg,pd);
-			
+			if(Jurisdiction.buttonJurisdiction(menuUrl, "edit")){roleService.gysqxc(msg,pd);}
 			mv.setViewName("save_result");
 			mv.addObject("msg","success");
 		} catch(Exception e){
@@ -184,8 +183,8 @@ public class RoleController extends BaseController {
 				pd.put("QX2", 0);				//产品权限
 				pd.put("QX3", 0);				//预留权限
 				pd.put("QX4", 0);				//预留权限
-				roleService.saveKeFu(pd);		//保存到K权限表
-			
+				if(Jurisdiction.buttonJurisdiction(menuUrl, "add")){roleService.saveKeFu(pd);}//保存到K权限表
+				
 				pd.put("U_ID", UUID);
 				pd.put("C1", 0);				//每日发信数量
 				pd.put("C2", 0);
@@ -195,7 +194,7 @@ public class RoleController extends BaseController {
 				pd.put("Q2", 0);				//权限2
 				pd.put("Q3", 0);
 				pd.put("Q4", 0);
-				roleService.saveGYSQX(pd);		//保存到G权限表
+				if(Jurisdiction.buttonJurisdiction(menuUrl, "add")){roleService.saveGYSQX(pd);}//保存到G权限表
 				pd.put("QX_ID", UUID);
 			
 			pd.put("ROLE_ID", UUID);
@@ -203,7 +202,7 @@ public class RoleController extends BaseController {
 			pd.put("DEL_QX", "0");
 			pd.put("EDIT_QX", "0");
 			pd.put("CHA_QX", "0");
-			roleService.add(pd);
+			if(Jurisdiction.buttonJurisdiction(menuUrl, "add")){roleService.add(pd);}
 			mv.addObject("msg","success");
 		} catch(Exception e){
 			logger.error(e.toString(), e);
@@ -224,7 +223,6 @@ public class RoleController extends BaseController {
 			pd = this.getPageData();
 			pd.put("ROLE_ID", ROLE_ID);
 			pd = roleService.findObjectById(pd);
-			
 			mv.setViewName("system/role/role_edit");
 			mv.addObject("pd", pd);
 		} catch(Exception e){
@@ -242,7 +240,7 @@ public class RoleController extends BaseController {
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
-			pd = roleService.edit(pd);
+			if(Jurisdiction.buttonJurisdiction(menuUrl, "edit")){pd = roleService.edit(pd);}
 			mv.addObject("msg","success");
 		} catch(Exception e){
 			logger.error(e.toString(), e);
@@ -338,23 +336,24 @@ public class RoleController extends BaseController {
 	public void saveAuth(@RequestParam String ROLE_ID,@RequestParam String menuIds,PrintWriter out)throws Exception{
 		PageData pd = new PageData();
 		try{
-			if(null != menuIds && !"".equals(menuIds.trim())){
-				BigInteger rights = RightsHelper.sumRights(Tools.str2StrArray(menuIds));
-				Role role = roleService.getRoleById(ROLE_ID);
-				role.setRIGHTS(rights.toString());
-				roleService.updateRoleRights(role);
-				pd.put("rights",rights.toString());
-			}else{
-				Role role = new Role();
-				role.setRIGHTS("");
-				role.setROLE_ID(ROLE_ID);
-				roleService.updateRoleRights(role);
-				pd.put("rights","");
+			if(Jurisdiction.buttonJurisdiction(menuUrl, "edit")){
+				if(null != menuIds && !"".equals(menuIds.trim())){
+					BigInteger rights = RightsHelper.sumRights(Tools.str2StrArray(menuIds));
+					Role role = roleService.getRoleById(ROLE_ID);
+					role.setRIGHTS(rights.toString());
+					roleService.updateRoleRights(role);
+					pd.put("rights",rights.toString());
+				}else{
+					Role role = new Role();
+					role.setRIGHTS("");
+					role.setROLE_ID(ROLE_ID);
+					roleService.updateRoleRights(role);
+					pd.put("rights","");
+				}
+					
+					pd.put("roleId", ROLE_ID);
+					roleService.setAllRights(pd);
 			}
-				
-				pd.put("roleId", ROLE_ID);
-				roleService.setAllRights(pd);
-			
 			out.write("success");
 			out.close();
 		} catch(Exception e){
@@ -370,15 +369,16 @@ public class RoleController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try{
-			if(null != menuIds && !"".equals(menuIds.trim())){
-				BigInteger rights = RightsHelper.sumRights(Tools.str2StrArray(menuIds));
-				pd.put("value",rights.toString());
-			}else{
-				pd.put("value","");
+			if(Jurisdiction.buttonJurisdiction(menuUrl, "edit")){
+				if(null != menuIds && !"".equals(menuIds.trim())){
+					BigInteger rights = RightsHelper.sumRights(Tools.str2StrArray(menuIds));
+					pd.put("value",rights.toString());
+				}else{
+					pd.put("value","");
+				}
+				pd.put("ROLE_ID", ROLE_ID);
+				roleService.updateQx(msg,pd);
 			}
-			pd.put("ROLE_ID", ROLE_ID);
-			roleService.updateQx(msg,pd);
-			
 			out.write("success");
 			out.close();
 		} catch(Exception e){
@@ -396,21 +396,23 @@ public class RoleController extends BaseController {
 		PageData pd = new PageData();
 		String errInfo = "";
 		try{
-			pd.put("ROLE_ID", ROLE_ID);
-			List<Role> roleList_z = roleService.listAllRolesByPId(pd);		//列出此部门的所有下级
-			if(roleList_z.size() > 0){
-				errInfo = "false";
-			}else{
-				
-				List<PageData> userlist = roleService.listAllUByRid(pd);
-				List<PageData> appuserlist = roleService.listAllAppUByRid(pd);
-				if(userlist.size() > 0 || appuserlist.size() > 0){
-					errInfo = "false2";
+			if(Jurisdiction.buttonJurisdiction(menuUrl, "del")){
+				pd.put("ROLE_ID", ROLE_ID);
+				List<Role> roleList_z = roleService.listAllRolesByPId(pd);		//列出此部门的所有下级
+				if(roleList_z.size() > 0){
+					errInfo = "false";
 				}else{
-				roleService.deleteRoleById(ROLE_ID);
-				roleService.deleteKeFuById(ROLE_ID);
-				roleService.deleteGById(ROLE_ID);
-				errInfo = "success";
+					
+					List<PageData> userlist = roleService.listAllUByRid(pd);
+					List<PageData> appuserlist = roleService.listAllAppUByRid(pd);
+					if(userlist.size() > 0 || appuserlist.size() > 0){
+						errInfo = "false2";
+					}else{
+					roleService.deleteRoleById(ROLE_ID);
+					roleService.deleteKeFuById(ROLE_ID);
+					roleService.deleteGById(ROLE_ID);
+					errInfo = "success";
+					}
 				}
 			}
 		} catch(Exception e){

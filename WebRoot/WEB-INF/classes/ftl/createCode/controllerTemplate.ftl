@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -25,13 +24,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.base.BaseController;
-import com.fh.entity.system.Menu;
 import com.fh.entity.Page;
 import com.fh.util.AppUtil;
 import com.fh.util.ObjectExcelView;
 import com.fh.util.Const;
 import com.fh.util.PageData;
 import com.fh.util.Tools;
+import com.fh.util.Jurisdiction;
 import com.fh.service.${packageName}.${objectNameLower}.${objectName}Service;
 
 /** 
@@ -43,6 +42,7 @@ import com.fh.service.${packageName}.${objectNameLower}.${objectName}Service;
 @RequestMapping(value="/${objectNameLower}")
 public class ${objectName}Controller extends BaseController {
 	
+	String menuUrl = "${objectNameLower}/list.do"; //菜单地址(权限用)
 	@Resource(name="${objectNameLower}Service")
 	private ${objectName}Service ${objectNameLower}Service;
 	
@@ -52,6 +52,7 @@ public class ${objectName}Controller extends BaseController {
 	@RequestMapping(value="/save")
 	public ModelAndView save() throws Exception{
 		logBefore(logger, "新增${objectName}");
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -77,6 +78,7 @@ public class ${objectName}Controller extends BaseController {
 	@RequestMapping(value="/delete")
 	public void delete(PrintWriter out){
 		logBefore(logger, "删除${objectName}");
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
@@ -95,6 +97,7 @@ public class ${objectName}Controller extends BaseController {
 	@RequestMapping(value="/edit")
 	public ModelAndView edit() throws Exception{
 		logBefore(logger, "修改${objectName}");
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -110,6 +113,7 @@ public class ${objectName}Controller extends BaseController {
 	@RequestMapping(value="/list")
 	public ModelAndView list(Page page){
 		logBefore(logger, "列表${objectName}");
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		try{
@@ -172,6 +176,7 @@ public class ${objectName}Controller extends BaseController {
 	@ResponseBody
 	public Object deleteAll() {
 		logBefore(logger, "批量删除${objectName}");
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "dell")){return null;} //校验权限
 		PageData pd = new PageData();		
 		Map<String,Object> map = new HashMap<String,Object>();
 		try {
@@ -202,6 +207,7 @@ public class ${objectName}Controller extends BaseController {
 	@RequestMapping(value="/excel")
 	public ModelAndView exportExcel(){
 		logBefore(logger, "导出${objectName}到excel");
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;}
 		ModelAndView mv = new ModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();

@@ -2,10 +2,10 @@
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for `TB_${objectNameUpper}`
+-- Table structure for `${tabletop}${objectNameUpper}`
 -- ----------------------------
-DROP TABLE IF EXISTS `TB_${objectNameUpper}`;
-CREATE TABLE `TB_${objectNameUpper}` (
+DROP TABLE IF EXISTS `${tabletop}${objectNameUpper}`;
+CREATE TABLE `${tabletop}${objectNameUpper}` (
  		`${objectNameUpper}_ID` varchar(100) NOT NULL,
 	<#list fieldList as var>
 		<#if var[1] == 'Integer'>

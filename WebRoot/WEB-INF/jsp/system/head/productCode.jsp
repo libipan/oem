@@ -99,16 +99,20 @@
 	<form action="createCode/proCode.do" name="Form" id="Form" method="post">
 		<input type="hidden" name="zindex" id="zindex" value="0">
 		<div id="zhongxin">
-		<table style="margin-top: 10px;">
+		<table style="margin-top: 10px;" border="0">
 			<tr>
-				<td style="width:15%;text-align: right;">上级包名：</td>
-				<td><input type="text" name="packageName" id="packageName" value="" placeholder="这里输入包名  (请不要输入特殊字符,请用纯字母)" style="width:370px" title="包名称"/></td>
+				<td style="width:76px;text-align: right;">上级包名：</td>
+				<td colspan="1"><input type="text" name="packageName" id="packageName" value="" placeholder="这里输入包名  (请不要输入特殊字符,请用纯字母)" style="width:370px" title="包名称"/></td>
 				<td>&nbsp;&nbsp;例如:com.fh.controller.<font color="red" style="font-weight: bold;">system</font>&nbsp;&nbsp;红色部分</td>
 			</tr>
+		</table>
+		<table border="0">
 			<tr>
-				<td style="width:15%;text-align: right;">处理类名：</td>
-				<td><input type="text" name="objectName" id="objectName" value="" placeholder="这里输入处理类名称" style="width:370px" title="类名称"/></td>
+				<td style="width:76px;text-align: right;">处理类名：</td>
+				<td><input type="text" name="objectName" id="objectName" value="" placeholder="这里输入处理类名称" style="width:200px" title="类名称"/></td>
 				<td>&nbsp;&nbsp;<font color="red" style="font-weight: bold;">类名首字母必须为大写字母或下划线</font></td>
+				<td style="width:76px;text-align: right;">表前缀：</td>
+				<td><input type="text" name="tabletop" id="tabletop" value="TB_" placeholder="这里输入表前缀" style="width:60px" title="表前缀"/></td>
 			</tr>
 		</table>
 		
@@ -152,7 +156,7 @@
 		<script src="static/js/bootstrap.min.js"></script>
 		<script src="static/js/ace-elements.min.js"></script>
 		<script src="static/js/ace.min.js"></script>
-		<script src="static/js/myjs/productCode.min.js"></script>
+		<script src="static/js/myjs/productCode.js"></script>
 		<script type="text/javascript">
 		$(top.hangge());
 		</script>

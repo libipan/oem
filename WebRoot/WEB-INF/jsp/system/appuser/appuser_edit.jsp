@@ -75,7 +75,6 @@
 		}
 		
 		if($("#NUMBER").val()==""){
-			
 			$("#NUMBER").tips({
 				side:3,
 	            msg:'输入编号',
@@ -84,6 +83,8 @@
 	        });
 			$("#NUMBER").focus();
 			return false;
+		}else{
+			$("#NUMBER").val($.trim($("#NUMBER").val()));
 		}	
 		
 		if($("#EMAIL").val()==""){
@@ -108,14 +109,12 @@
 		}
 		
 		if($("#user_id").val()=="" && $("#password").val()==""){
-			
 			$("#password").tips({
 				side:3,
 	            msg:'输入密码',
 	            bg:'#AE81FF',
 	            time:2
 	        });
-			
 			$("#password").focus();
 			return false;
 		}
@@ -185,17 +184,21 @@
 	//判断用户名是否存在
 	function hasU(){
 		var USERNAME = $("#loginname").val();
-		var url = "<%=basePath%>happuser/hasU.do?USERNAME="+USERNAME+"&tm="+new Date().getTime();
-		$.get(url,function(data){
-			if(data=="error"){
-				$("#loginname").css("background-color","#D16E6C");
-				
-				setTimeout("$('#loginname').val('此用户名已存在!')",500);
-				
-			}else{
-				$("#userForm").submit();
-				$("#zhongxin").hide();
-				$("#zhongxin2").show();
+		$.ajax({
+			type: "POST",
+			url: '<%=basePath%>happuser/hasU.do',
+	    	data: {USERNAME:USERNAME,tm:new Date().getTime()},
+			dataType:'json',
+			cache: false,
+			success: function(data){
+				 if("success" == data.result){
+					$("#userForm").submit();
+					$("#zhongxin").hide();
+					$("#zhongxin2").show();
+				 }else{
+					$("#loginname").css("background-color","#D16E6C");
+					setTimeout("$('#loginname').val('此用户名已存在!')",500);
+				 }
 			}
 		});
 	}
@@ -203,19 +206,22 @@
 	//判断邮箱是否存在
 	function hasE(USERNAME){
 		var EMAIL = $("#EMAIL").val();
-		var url = "<%=basePath%>happuser/hasE.do?EMAIL="+EMAIL+"&USERNAME="+USERNAME+"&tm="+new Date().getTime();
-		$.get(url,function(data){
-			if(data=="error"){
-				
-				$("#EMAIL").tips({
-					side:3,
-		            msg:'邮箱已存在',
-		            bg:'#AE81FF',
-		            time:3
-		        });
-				
-				setTimeout("$('#EMAIL').val('')",2000);
-				
+		$.ajax({
+			type: "POST",
+			url: '<%=basePath%>happuser/hasE.do',
+	    	data: {EMAIL:EMAIL,USERNAME:USERNAME,tm:new Date().getTime()},
+			dataType:'json',
+			cache: false,
+			success: function(data){
+				 if("success" != data.result){
+					 $("#EMAIL").tips({
+							side:3,
+				            msg:'邮箱已存在',
+				            bg:'#AE81FF',
+				            time:3
+				        });
+					setTimeout("$('#EMAIL').val('')",2000);
+				 }
 			}
 		});
 	}
@@ -223,19 +229,22 @@
 	//判断编码是否存在
 	function hasN(USERNAME){
 		var NUMBER = $("#NUMBER").val();
-		var url = "<%=basePath%>happuser/hasN.do?NUMBER="+NUMBER+"&USERNAME="+USERNAME+"&tm="+new Date().getTime();
-		$.get(url,function(data){
-			if(data=="error"){
-				
-				$("#NUMBER").tips({
-					side:3,
-		            msg:'编号已存在',
-		            bg:'#AE81FF',
-		            time:3
-		        });
-				
-				setTimeout("$('#NUMBER').val('')",2000);
-				
+		$.ajax({
+			type: "POST",
+			url: '<%=basePath%>happuser/hasN.do',
+	    	data: {NUMBER:NUMBER,USERNAME:USERNAME,tm:new Date().getTime()},
+			dataType:'json',
+			cache: false,
+			success: function(data){
+				 if("success" != data.result){
+					 $("#NUMBER").tips({
+							side:3,
+				            msg:'编号已存在',
+				            bg:'#AE81FF',
+				            time:3
+				        });
+					setTimeout("$('#NUMBER').val('')",2000);
+				 }
 			}
 		});
 	}

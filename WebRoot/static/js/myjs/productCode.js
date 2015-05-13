@@ -178,6 +178,7 @@
 		$("#form-field-radio1").attr("checked",true);
 		$("#form-field-radio4").attr("checked",true);
 		$("#dialog-add").css("display","block");
+		$("#ddefault").attr("disabled",true);
 	}
 	//打开编辑属性(修改)
 	function editField(value,msgIndex){

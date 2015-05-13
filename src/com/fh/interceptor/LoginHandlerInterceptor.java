@@ -14,6 +14,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import com.fh.entity.system.Menu;
 import com.fh.entity.system.User;
 import com.fh.util.Const;
+import com.fh.util.Jurisdiction;
 import com.fh.util.RightsHelper;
 /**
  * 
@@ -39,41 +40,12 @@ public class LoginHandlerInterceptor extends HandlerInterceptorAdapter{
 			Session session = currentUser.getSession();
 			User user = (User)session.getAttribute(Const.SESSION_USER);
 			if(user!=null){
-				
-				//判断是否拥有当前点击菜单的权限（内部过滤,防止通过url进入跳过菜单权限）
-				/**
-				 * 根据点击的菜单的xxx.do去菜单中的URL去匹配，当匹配到了此菜单，判断是否有此菜单的权限，没有的话跳转到404页面
-				 * 根据按钮权限，授权按钮(当前点的菜单和角色中各按钮的权限匹对)
-				 */
-				Boolean b = true;
-				List<Menu> menuList = (List)session.getAttribute(Const.SESSION_allmenuList); //获取菜单列表
 				path = path.substring(1, path.length());
-				for(int i=0;i<menuList.size();i++){
-					for(int j=0;j<menuList.get(i).getSubMenu().size();j++){
-						if(menuList.get(i).getSubMenu().get(j).getMENU_URL().split(".do")[0].equals(path.split(".do")[0])){
-							if(!menuList.get(i).getSubMenu().get(j).isHasMenu()){				//判断有无此菜单权限
-								response.sendRedirect(request.getContextPath() + Const.LOGIN);
-								return false;
-							}else{																//按钮判断
-								Map<String, String> map = (Map<String, String>)session.getAttribute(Const.SESSION_QX);//按钮权限
-								map.remove("add");
-								map.remove("del");
-								map.remove("edit");
-								map.remove("cha");
-								String MENU_ID =  menuList.get(i).getSubMenu().get(j).getMENU_ID();
-								String USERNAME = session.getAttribute(Const.SESSION_USERNAME).toString();	//获取当前登录者loginname
-								Boolean isAdmin = "admin".equals(USERNAME);
-								map.put("add", (RightsHelper.testRights(map.get("adds"), MENU_ID)) || isAdmin?"1":"0");
-								map.put("del", RightsHelper.testRights(map.get("dels"), MENU_ID) || isAdmin?"1":"0");
-								map.put("edit", RightsHelper.testRights(map.get("edits"), MENU_ID) || isAdmin?"1":"0");
-								map.put("cha", RightsHelper.testRights(map.get("chas"), MENU_ID) || isAdmin?"1":"0");
-								session.removeAttribute(Const.SESSION_QX);
-								session.setAttribute(Const.SESSION_QX, map);	//重新分配按钮权限
-							}
-						}
-					}
+				boolean b = Jurisdiction.hasJurisdiction(path);
+				if(!b){
+					response.sendRedirect(request.getContextPath() + Const.LOGIN);
 				}
-				return true;
+				return b;
 			}else{
 				//登陆过滤
 				response.sendRedirect(request.getContextPath() + Const.LOGIN);

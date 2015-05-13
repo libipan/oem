@@ -49,6 +49,7 @@
 					<td style="vertical-align:top;"> 
 					 	<select class="chzn-select" name="STATUS" id="STATUS" data-placeholder="状态" style="vertical-align:top;width: 79px;">
 						<option value=""></option>
+						<option value="">全部</option>
 						<option value="1" <c:if test="${pd.STATUS == '1' }">selected</c:if> >正常</option>
 						<option value="0" <c:if test="${pd.STATUS == '0' }">selected</c:if> >冻结</option>
 						</select>
@@ -262,7 +263,7 @@
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 					 if('${page.currentPage}' == '0'){
 						 top.jzts();
-						 setTimeout("self.location.reload()",100);
+						 setTimeout("self.location=self.location",100);
 					 }else{
 						 nextPage(${page.currentPage});
 					 }

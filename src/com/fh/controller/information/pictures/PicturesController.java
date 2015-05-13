@@ -31,6 +31,7 @@ import com.fh.util.AppUtil;
 import com.fh.util.DateUtil;
 import com.fh.util.DelAllFile;
 import com.fh.util.FileUpload;
+import com.fh.util.Jurisdiction;
 import com.fh.util.ObjectExcelView;
 import com.fh.util.Const;
 import com.fh.util.PageData;
@@ -48,6 +49,7 @@ import com.fh.service.information.pictures.PicturesService;
 @RequestMapping(value="/pictures")
 public class PicturesController extends BaseController {
 	
+	String menuUrl = "pictures/list.do"; //菜单地址(权限用)
 	@Resource(name="picturesService")
 	private PicturesService picturesService;
 	
@@ -62,26 +64,26 @@ public class PicturesController extends BaseController {
 		logBefore(logger, "新增Pictures");
 		Map<String,String> map = new HashMap<String,String>();
 		String  ffile = DateUtil.getDays(), fileName = "";
-		if (null != file && !file.isEmpty()) {
-			String filePath = PathUtil.getClasspath() + Const.FILEPATHIMG + ffile;		//文件上传路径
-			fileName = FileUpload.fileUp(file, filePath, this.get32UUID());				//执行上传
-		}else{
-			System.out.println("上传失败");
-		}
-		
 		PageData pd = new PageData();
-		
-		pd.put("PICTURES_ID", this.get32UUID());			//主键
-		pd.put("TITLE", "图片");								//标题
-		pd.put("NAME", fileName);							//文件名
-		pd.put("PATH", ffile + "/" + fileName);				//路径
-		pd.put("CREATETIME", Tools.date2Str(new Date()));	//创建时间
-		pd.put("MASTER_ID", "1");							//附属与
-		pd.put("BZ", "图片管理处上传");						//备注
-		//加水印
-		Watermark.setWatemark(PathUtil.getClasspath() + Const.FILEPATHIMG + ffile + "/" + fileName);
-		picturesService.save(pd);
-		
+		if(Jurisdiction.buttonJurisdiction(menuUrl, "add")){
+			if (null != file && !file.isEmpty()) {
+				String filePath = PathUtil.getClasspath() + Const.FILEPATHIMG + ffile;		//文件上传路径
+				fileName = FileUpload.fileUp(file, filePath, this.get32UUID());				//执行上传
+			}else{
+				System.out.println("上传失败");
+			}
+			
+			pd.put("PICTURES_ID", this.get32UUID());			//主键
+			pd.put("TITLE", "图片");								//标题
+			pd.put("NAME", fileName);							//文件名
+			pd.put("PATH", ffile + "/" + fileName);				//路径
+			pd.put("CREATETIME", Tools.date2Str(new Date()));	//创建时间
+			pd.put("MASTER_ID", "1");							//附属与
+			pd.put("BZ", "图片管理处上传");						//备注
+			//加水印
+			Watermark.setWatemark(PathUtil.getClasspath() + Const.FILEPATHIMG + ffile + "/" + fileName);
+			picturesService.save(pd);
+		}
 		map.put("result", "ok");
 		return AppUtil.returnObject(pd, map);
 	}
@@ -94,9 +96,11 @@ public class PicturesController extends BaseController {
 		logBefore(logger, "删除Pictures");
 		PageData pd = new PageData();
 		try{
-			pd = this.getPageData();
-			DelAllFile.delFolder(PathUtil.getClasspath()+ Const.FILEPATHIMG + pd.getString("PATH")); //删除图片
-			picturesService.delete(pd);
+			if(Jurisdiction.buttonJurisdiction(menuUrl, "del")){
+				pd = this.getPageData();
+				DelAllFile.delFolder(PathUtil.getClasspath()+ Const.FILEPATHIMG + pd.getString("PATH")); //删除图片
+				picturesService.delete(pd);
+			}
 			out.write("success");
 			out.close();
 		} catch(Exception e){
@@ -122,24 +126,25 @@ public class PicturesController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		
-		pd.put("PICTURES_ID", PICTURES_ID);		//图片ID
-		pd.put("TITLE", TITLE);					//标题
-		pd.put("MASTER_ID", MASTER_ID);			//属于ID
-		pd.put("BZ", BZ);						//备注
-		
-		if(null == tpz){tpz = "";}
-		String  ffile = DateUtil.getDays(), fileName = "";
-		if (null != file && !file.isEmpty()) {
-			String filePath = PathUtil.getClasspath() + Const.FILEPATHIMG + ffile;		//文件上传路径
-			fileName = FileUpload.fileUp(file, filePath, this.get32UUID());				//执行上传
-			pd.put("PATH", ffile + "/" + fileName);				//路径
-			pd.put("NAME", fileName);
-		}else{
-			pd.put("PATH", tpz);
+		if(Jurisdiction.buttonJurisdiction(menuUrl, "edit")){
+			pd.put("PICTURES_ID", PICTURES_ID);		//图片ID
+			pd.put("TITLE", TITLE);					//标题
+			pd.put("MASTER_ID", MASTER_ID);			//属于ID
+			pd.put("BZ", BZ);						//备注
+			
+			if(null == tpz){tpz = "";}
+			String  ffile = DateUtil.getDays(), fileName = "";
+			if (null != file && !file.isEmpty()) {
+				String filePath = PathUtil.getClasspath() + Const.FILEPATHIMG + ffile;		//文件上传路径
+				fileName = FileUpload.fileUp(file, filePath, this.get32UUID());				//执行上传
+				pd.put("PATH", ffile + "/" + fileName);				//路径
+				pd.put("NAME", fileName);
+			}else{
+				pd.put("PATH", tpz);
+			}
+			Watermark.setWatemark(PathUtil.getClasspath() + Const.FILEPATHIMG + ffile + "/" + fileName);//加水印
+			picturesService.edit(pd);				//执行修改数据库
 		}
-		Watermark.setWatemark(PathUtil.getClasspath() + Const.FILEPATHIMG + ffile + "/" + fileName);//加水印
-		picturesService.edit(pd);				//执行修改数据库
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
@@ -224,23 +229,25 @@ public class PicturesController extends BaseController {
 		Map<String,Object> map = new HashMap<String,Object>();
 		try {
 			pd = this.getPageData();
-			List<PageData> pdList = new ArrayList<PageData>();
-			List<PageData> pathList = new ArrayList<PageData>();
-			String DATA_IDS = pd.getString("DATA_IDS");
-			if(null != DATA_IDS && !"".equals(DATA_IDS)){
-				String ArrayDATA_IDS[] = DATA_IDS.split(",");
-				pathList = picturesService.getAllById(ArrayDATA_IDS);
-				//删除图片
-				for(int i=0;i<pathList.size();i++){
-					DelAllFile.delFolder(PathUtil.getClasspath()+ Const.FILEPATHIMG + pathList.get(i).getString("PATH"));
+			if(Jurisdiction.buttonJurisdiction(menuUrl, "del")){
+				List<PageData> pdList = new ArrayList<PageData>();
+				List<PageData> pathList = new ArrayList<PageData>();
+				String DATA_IDS = pd.getString("DATA_IDS");
+				if(null != DATA_IDS && !"".equals(DATA_IDS)){
+					String ArrayDATA_IDS[] = DATA_IDS.split(",");
+					pathList = picturesService.getAllById(ArrayDATA_IDS);
+					//删除图片
+					for(int i=0;i<pathList.size();i++){
+						DelAllFile.delFolder(PathUtil.getClasspath()+ Const.FILEPATHIMG + pathList.get(i).getString("PATH"));
+					}
+					picturesService.deleteAll(ArrayDATA_IDS);
+					pd.put("msg", "ok");
+				}else{
+					pd.put("msg", "no");
 				}
-				picturesService.deleteAll(ArrayDATA_IDS);
-				pd.put("msg", "ok");
-			}else{
-				pd.put("msg", "no");
+				pdList.add(pd);
+				map.put("list", pdList);
 			}
-			pdList.add(pd);
-			map.put("list", pdList);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
 		} finally {

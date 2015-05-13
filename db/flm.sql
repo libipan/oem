@@ -212,6 +212,11 @@ INSERT INTO `sys_menu` VALUES ('17', '线路管理', 'line/list.do', '6', '4', n
 INSERT INTO `sys_menu` VALUES ('18', '友情链接', 'link/list.do', '6', '6', null, '2');
 INSERT INTO `sys_menu` VALUES ('19', '新闻管理', 'news/list.do', '6', '7', null, '2');
 INSERT INTO `sys_menu` VALUES ('20', '公告管理', 'notice/list.do', '6', '8', null, '2');
+INSERT INTO `sys_menu` VALUES ('21', '微信管理', '#', '0', '2', 'icon-comments', '2');
+INSERT INTO `sys_menu` VALUES ('22', '文本回复', 'textmsg/list.do', '15', '2', null, '2');
+INSERT INTO `sys_menu` VALUES ('23', '应用命令', 'command/list.do', '15', '4', null, '2');
+INSERT INTO `sys_menu` VALUES ('24', '图文回复', 'imgmsg/list.do', '15', '3', null, '2');
+INSERT INTO `sys_menu` VALUES ('25', '关注回复', 'textmsg/goSubscribe.do', '15', '1', null, '2');
 
 -- ----------------------------
 -- Table structure for sys_news
@@ -403,6 +408,104 @@ INSERT INTO `tb_pictures` VALUES ('1c4064ea4a7b4387a54aaf15faae3329', '图片', 
 INSERT INTO `tb_pictures` VALUES ('2063276258a04b168cb77e8b56e085cd', '图片', '9257f49ebd344433918f00e027bd1447.jpg', '20150417/9257f49ebd344433918f00e027bd1447.jpg', '2015-04-17 03:12:48', '1', '图片管理处上传');
 INSERT INTO `tb_pictures` VALUES ('2a5b4f70002643e09fe368bcc572ac9f', '图片', 'd6da4ab0537645a18aac087976d01a0b.png', '20150417/d6da4ab0537645a18aac087976d01a0b.png', '2015-04-17 03:12:48', '1', '图片管理处上传');
 INSERT INTO `tb_pictures` VALUES ('88b69a1e2dc94c96a6c6cd878b51e5d7', '图片', '60ff037042ce4aa084edce40a46266d9.jpg', '20150417/60ff037042ce4aa084edce40a46266d9.jpg', '2015-04-17 03:16:13', '1', '图片管理处上传');
+
+
+-- ----------------------------
+-- Table structure for weixin_command
+-- ----------------------------
+DROP TABLE IF EXISTS `weixin_command`;
+CREATE TABLE `weixin_command` (
+  `COMMAND_ID` varchar(100) NOT NULL,
+  `KEYWORD` varchar(255) DEFAULT NULL COMMENT '关键词',
+  `COMMANDCODE` varchar(255) DEFAULT NULL COMMENT '应用路径',
+  `CREATETIME` varchar(255) DEFAULT NULL COMMENT '创建时间',
+  `STATUS` int(1) NOT NULL COMMENT '状态',
+  `BZ` varchar(255) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`COMMAND_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of weixin_command
+-- ----------------------------
+INSERT INTO `weixin_command` VALUES ('2636750f6978451b8330874c9be042c2', '锁定服务器', 'rundll32.exe user32.dll,LockWorkStation', '2015-05-10 21:25:06', '1', '锁定计算机');
+INSERT INTO `weixin_command` VALUES ('46217c6d44354010823241ef484f7214', '打开浏览器', 'C:/Program Files/Internet Explorer/iexplore.exe', '2015-05-09 02:43:02', '1', '打开浏览器操作');
+INSERT INTO `weixin_command` VALUES ('576adcecce504bf3bb34c6b4da79a177', '关闭浏览器', 'taskkill /f /im iexplore.exe', '2015-05-09 02:36:48', '1', '关闭浏览器操作');
+INSERT INTO `weixin_command` VALUES ('854a157c6d99499493f4cc303674c01f', '关闭QQ', 'taskkill /f /im qq.exe', '2015-05-10 21:25:46', '1', '关闭QQ');
+INSERT INTO `weixin_command` VALUES ('ab3a8c6310ca4dc8b803ecc547e55ae7', '打开QQ', 'D:/SOFT/QQ/QQ/Bin/qq.exe', '2015-05-10 21:25:25', '1', '打开QQ');
+
+-- ----------------------------
+-- Table structure for weixin_imgmsg
+-- ----------------------------
+DROP TABLE IF EXISTS `weixin_imgmsg`;
+CREATE TABLE `weixin_imgmsg` (
+  `IMGMSG_ID` varchar(100) NOT NULL,
+  `KEYWORD` varchar(255) DEFAULT NULL COMMENT '关键词',
+  `CREATETIME` varchar(255) DEFAULT NULL COMMENT '创建时间',
+  `STATUS` int(11) NOT NULL COMMENT '状态',
+  `BZ` varchar(255) DEFAULT NULL COMMENT '备注',
+  `TITLE1` varchar(255) DEFAULT NULL COMMENT '标题1',
+  `DESCRIPTION1` varchar(255) DEFAULT NULL COMMENT '描述1',
+  `IMGURL1` varchar(255) DEFAULT NULL COMMENT '图片地址1',
+  `TOURL1` varchar(255) DEFAULT NULL COMMENT '超链接1',
+  `TITLE2` varchar(255) DEFAULT NULL COMMENT '标题2',
+  `DESCRIPTION2` varchar(255) DEFAULT NULL COMMENT '描述2',
+  `IMGURL2` varchar(255) DEFAULT NULL COMMENT '图片地址2',
+  `TOURL2` varchar(255) DEFAULT NULL COMMENT '超链接2',
+  `TITLE3` varchar(255) DEFAULT NULL COMMENT '标题3',
+  `DESCRIPTION3` varchar(255) DEFAULT NULL COMMENT '描述3',
+  `IMGURL3` varchar(255) DEFAULT NULL COMMENT '图片地址3',
+  `TOURL3` varchar(255) DEFAULT NULL COMMENT '超链接3',
+  `TITLE4` varchar(255) DEFAULT NULL COMMENT '标题4',
+  `DESCRIPTION4` varchar(255) DEFAULT NULL COMMENT '描述4',
+  `IMGURL4` varchar(255) DEFAULT NULL COMMENT '图片地址4',
+  `TOURL4` varchar(255) DEFAULT NULL COMMENT '超链接4',
+  `TITLE5` varchar(255) DEFAULT NULL COMMENT '标题5',
+  `DESCRIPTION5` varchar(255) DEFAULT NULL COMMENT '描述5',
+  `IMGURL5` varchar(255) DEFAULT NULL COMMENT '图片地址5',
+  `TOURL5` varchar(255) DEFAULT NULL COMMENT '超链接5',
+  `TITLE6` varchar(255) DEFAULT NULL COMMENT '标题6',
+  `DESCRIPTION6` varchar(255) DEFAULT NULL COMMENT '描述6',
+  `IMGURL6` varchar(255) DEFAULT NULL COMMENT '图片地址6',
+  `TOURL6` varchar(255) DEFAULT NULL COMMENT '超链接6',
+  `TITLE7` varchar(255) DEFAULT NULL COMMENT '标题7',
+  `DESCRIPTION7` varchar(255) DEFAULT NULL COMMENT '描述7',
+  `IMGURL7` varchar(255) DEFAULT NULL COMMENT '图片地址7',
+  `TOURL7` varchar(255) DEFAULT NULL COMMENT '超链接7',
+  `TITLE8` varchar(255) DEFAULT NULL COMMENT '标题8',
+  `DESCRIPTION8` varchar(255) DEFAULT NULL COMMENT '描述8',
+  `IMGURL8` varchar(255) DEFAULT NULL COMMENT '图片地址8',
+  `TOURL8` varchar(255) DEFAULT NULL COMMENT '超链接8',
+  PRIMARY KEY (`IMGMSG_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of weixin_imgmsg
+-- ----------------------------
+INSERT INTO `weixin_imgmsg` VALUES ('380b2cb1f4954315b0e20618f7b5bd8f', '首页', '2015-05-10 20:51:09', '1', '图文回复', '图文回复标题', '图文回复描述', 'http://a.hiphotos.baidu.com/image/h%3D360/sign=c6c7e73ebc389b5027ffe654b535e5f1/a686c9177f3e6709392bb8df3ec79f3df8dc55e3.jpg', 'www.baidu.com', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
+
+-- ----------------------------
+-- Table structure for weixin_textmsg
+-- ----------------------------
+DROP TABLE IF EXISTS `weixin_textmsg`;
+CREATE TABLE `weixin_textmsg` (
+  `TEXTMSG_ID` varchar(100) NOT NULL,
+  `KEYWORD` varchar(255) DEFAULT NULL COMMENT '关键词',
+  `CONTENT` varchar(255) DEFAULT NULL COMMENT '内容',
+  `CREATETIME` varchar(255) DEFAULT NULL COMMENT '创建时间',
+  `STATUS` int(11) DEFAULT NULL COMMENT '状态',
+  `BZ` varchar(255) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`TEXTMSG_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of weixin_textmsg
+-- ----------------------------
+INSERT INTO `weixin_textmsg` VALUES ('63681adbe7144f10b66d6863e07f23c2', '你好', '你也好', '2015-05-09 02:39:23', '1', '文本回复');
+INSERT INTO `weixin_textmsg` VALUES ('695cd74779734231928a253107ab0eeb', '吃饭', '吃了噢噢噢噢', '2015-05-10 22:52:27', '1', '文本回复');
+INSERT INTO `weixin_textmsg` VALUES ('d4738af7aea74a6ca1a5fb25a98f9acb', '关注', '关注', '2015-05-11 02:12:36', '1', '关注回复');
+
+
+
 
 -- ----------------------------
 -- Function structure for get_count

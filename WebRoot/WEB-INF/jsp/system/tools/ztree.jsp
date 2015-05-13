@@ -91,7 +91,7 @@
 			{ id:1, pId:0, name:"父节点1 - 展开", open:true},
 			{ id:11, pId:1, name:"父节点11 - 折叠"},
 			{ id:111, pId:11, name:"叶子节点111", url:"http://www.so.com/", target:"treeFrame"},
-			{ id:112, pId:11, name:"叶子节点112"},
+			{ id:112, pId:11, name:"叶子节点112", url:"", target:"treeFrame"},
 			{ id:113, pId:11, name:"叶子节点113"},
 			{ id:114, pId:11, name:"叶子节点114"},
 			{ id:115, pId:114, name:"叶子节点114"},

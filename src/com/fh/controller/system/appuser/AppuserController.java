@@ -24,12 +24,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
-import com.fh.entity.system.Menu;
 import com.fh.entity.system.Role;
 import com.fh.service.system.appuser.AppuserService;
 import com.fh.service.system.role.RoleService;
 import com.fh.util.AppUtil;
 import com.fh.util.Const;
+import com.fh.util.Jurisdiction;
 import com.fh.util.MD5;
 import com.fh.util.ObjectExcelView;
 import com.fh.util.PageData;
@@ -44,6 +44,7 @@ import com.fh.util.PageData;
 @RequestMapping(value="/happuser")
 public class AppuserController extends BaseController {
 	
+	String menuUrl = "happuser/listUsers.do"; //菜单地址(权限用)
 	@Resource(name="appuserService")
 	private AppuserService appuserService;
 	@Resource(name="roleService")
@@ -69,7 +70,7 @@ public class AppuserController extends BaseController {
 		pd.put("PASSWORD", MD5.md5(pd.getString("PASSWORD")));
 		
 		if(null == appuserService.findByUId(pd)){
-			appuserService.saveU(pd);
+			if(Jurisdiction.buttonJurisdiction(menuUrl, "add")){appuserService.saveU(pd);} //判断新增权限
 			mv.addObject("msg","success");
 		}else{
 			mv.addObject("msg","failed");
@@ -89,7 +90,7 @@ public class AppuserController extends BaseController {
 		if(pd.getString("PASSWORD") != null && !"".equals(pd.getString("PASSWORD"))){
 			pd.put("PASSWORD", MD5.md5(pd.getString("PASSWORD")));
 		}
-		appuserService.editU(pd);
+		if(Jurisdiction.buttonJurisdiction(menuUrl, "edit")){appuserService.editU(pd);}
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
@@ -99,62 +100,63 @@ public class AppuserController extends BaseController {
 	 * 判断用户名是否存在
 	 */
 	@RequestMapping(value="/hasU")
-	public void hasU(PrintWriter out){
+	@ResponseBody
+	public Object hasU(){
+		Map<String,String> map = new HashMap<String,String>();
+		String errInfo = "success";
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
 			if(appuserService.findByUId(pd) != null){
-				out.write("error");
-			}else{
-				out.write("success");
+				errInfo = "error";
 			}
-			out.close();
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
-		
+		map.put("result", errInfo);				//返回结果
+		return AppUtil.returnObject(new PageData(), map);
 	}
 	
 	/**
 	 * 判断邮箱是否存在
 	 */
 	@RequestMapping(value="/hasE")
-	public void hasE(PrintWriter out){
+	@ResponseBody
+	public Object hasE(){
+		Map<String,String> map = new HashMap<String,String>();
+		String errInfo = "success";
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
-			
 			if(appuserService.findByUE(pd) != null){
-				out.write("error");
-			}else{
-				out.write("success");
+				errInfo = "error";
 			}
-			out.close();
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
-		
+		map.put("result", errInfo);				//返回结果
+		return AppUtil.returnObject(new PageData(), map);
 	}
 	
 	/**
 	 * 判断编码是否存在
 	 */
 	@RequestMapping(value="/hasN")
-	public void hasN(PrintWriter out){
+	@ResponseBody
+	public Object hasN(){
+		Map<String,String> map = new HashMap<String,String>();
+		String errInfo = "success";
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
-			
 			if(appuserService.findByUN(pd) != null){
-				out.write("error");
-			}else{
-				out.write("success");
+				errInfo = "error";
 			}
-			out.close();
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
-		
+		map.put("result", errInfo);				//返回结果
+		return AppUtil.returnObject(new PageData(), map);
 	}
 	
 	/**
@@ -166,11 +168,8 @@ public class AppuserController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
-			
 			List<Role> roleList = roleService.listAllappERRoles();			//列出所有二级角色
-			
 			pd = appuserService.findByUiId(pd);								//根据ID读取
-			
 			mv.setViewName("system/appuser/appuser_edit");
 			mv.addObject("msg", "editU");
 			mv.addObject("pd", pd);
@@ -191,9 +190,7 @@ public class AppuserController extends BaseController {
 		pd = this.getPageData();
 		try {
 			List<Role> roleList;
-			
 			roleList = roleService.listAllappERRoles();			//列出所有二级角色
-		
 			mv.setViewName("system/appuser/appuser_edit");
 			mv.addObject("msg", "saveU");
 			mv.addObject("pd", pd);
@@ -245,7 +242,7 @@ public class AppuserController extends BaseController {
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
-			appuserService.deleteU(pd);
+			if(Jurisdiction.buttonJurisdiction(menuUrl, "del")){appuserService.deleteU(pd);}
 			out.write("success");
 			out.close();
 		} catch(Exception e){
@@ -269,7 +266,7 @@ public class AppuserController extends BaseController {
 			
 			if(null != USER_IDS && !"".equals(USER_IDS)){
 				String ArrayUSER_IDS[] = USER_IDS.split(",");
-				appuserService.deleteAllU(ArrayUSER_IDS);
+				if(Jurisdiction.buttonJurisdiction(menuUrl, "del")){appuserService.deleteAllU(ArrayUSER_IDS);}
 				pd.put("msg", "ok");
 			}else{
 				pd.put("msg", "no");
@@ -296,62 +293,63 @@ public class AppuserController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try{
-			
-			//检索条件===
-			String USERNAME = pd.getString("USERNAME");
-			if(null != USERNAME && !"".equals(USERNAME)){
-				USERNAME = USERNAME.trim();
-				pd.put("USERNAME", USERNAME);
+			if(Jurisdiction.buttonJurisdiction(menuUrl, "cha")){	
+				//检索条件===
+				String USERNAME = pd.getString("USERNAME");
+				if(null != USERNAME && !"".equals(USERNAME)){
+					USERNAME = USERNAME.trim();
+					pd.put("USERNAME", USERNAME);
+				}
+				String lastLoginStart = pd.getString("lastLoginStart");
+				String lastLoginEnd = pd.getString("lastLoginEnd");
+				if(lastLoginStart != null && !"".equals(lastLoginStart)){
+					lastLoginStart = lastLoginStart+" 00:00:00";
+					pd.put("lastLoginStart", lastLoginStart);
+				}
+				if(lastLoginEnd != null && !"".equals(lastLoginEnd)){
+					lastLoginEnd = lastLoginEnd+" 00:00:00";
+					pd.put("lastLoginEnd", lastLoginEnd);
+				} 
+				//检索条件===
+				
+				Map<String,Object> dataMap = new HashMap<String,Object>();
+				List<String> titles = new ArrayList<String>();
+				
+				titles.add("用户名"); 		//1
+				titles.add("编号");  		//2
+				titles.add("姓名");			//3
+				titles.add("手机号");		//4
+				titles.add("身份证号");		//5
+				titles.add("等级");			//6
+				titles.add("邮箱");			//7
+				titles.add("最近登录");		//8
+				titles.add("到期时间");		//9
+				titles.add("上次登录IP");	//10
+				
+				dataMap.put("titles", titles);
+				
+				List<PageData> userList = appuserService.listAllUser(pd);
+				List<PageData> varList = new ArrayList<PageData>();
+				for(int i=0;i<userList.size();i++){
+					PageData vpd = new PageData();
+					vpd.put("var1", userList.get(i).getString("USERNAME"));		//1
+					vpd.put("var2", userList.get(i).getString("NUMBER"));		//2
+					vpd.put("var3", userList.get(i).getString("NAME"));			//3
+					vpd.put("var4", userList.get(i).getString("PHONE"));		//4
+					vpd.put("var5", userList.get(i).getString("SFID"));			//5
+					vpd.put("var6", userList.get(i).getString("ROLE_NAME"));	//6
+					vpd.put("var7", userList.get(i).getString("EMAIL"));		//7
+					vpd.put("var8", userList.get(i).getString("LAST_LOGIN"));	//8
+					vpd.put("var9", userList.get(i).getString("END_TIME"));		//9
+					vpd.put("var10", userList.get(i).getString("IP"));			//10
+					varList.add(vpd);
+				}
+				
+				dataMap.put("varList", varList);
+				
+				ObjectExcelView erv = new ObjectExcelView();
+				mv = new ModelAndView(erv,dataMap);
 			}
-			String lastLoginStart = pd.getString("lastLoginStart");
-			String lastLoginEnd = pd.getString("lastLoginEnd");
-			if(lastLoginStart != null && !"".equals(lastLoginStart)){
-				lastLoginStart = lastLoginStart+" 00:00:00";
-				pd.put("lastLoginStart", lastLoginStart);
-			}
-			if(lastLoginEnd != null && !"".equals(lastLoginEnd)){
-				lastLoginEnd = lastLoginEnd+" 00:00:00";
-				pd.put("lastLoginEnd", lastLoginEnd);
-			} 
-			//检索条件===
-			
-			Map<String,Object> dataMap = new HashMap<String,Object>();
-			List<String> titles = new ArrayList<String>();
-			
-			titles.add("用户名"); 		//1
-			titles.add("编号");  		//2
-			titles.add("姓名");			//3
-			titles.add("手机号");		//4
-			titles.add("身份证号");		//5
-			titles.add("等级");			//6
-			titles.add("邮箱");			//7
-			titles.add("最近登录");		//8
-			titles.add("到期时间");		//9
-			titles.add("上次登录IP");	//10
-			
-			dataMap.put("titles", titles);
-			
-			List<PageData> userList = appuserService.listAllUser(pd);
-			List<PageData> varList = new ArrayList<PageData>();
-			for(int i=0;i<userList.size();i++){
-				PageData vpd = new PageData();
-				vpd.put("var1", userList.get(i).getString("USERNAME"));		//1
-				vpd.put("var2", userList.get(i).getString("NUMBER"));		//2
-				vpd.put("var3", userList.get(i).getString("NAME"));			//3
-				vpd.put("var4", userList.get(i).getString("PHONE"));		//4
-				vpd.put("var5", userList.get(i).getString("SFID"));			//5
-				vpd.put("var6", userList.get(i).getString("ROLE_NAME"));	//6
-				vpd.put("var7", userList.get(i).getString("EMAIL"));		//7
-				vpd.put("var8", userList.get(i).getString("LAST_LOGIN"));	//8
-				vpd.put("var9", userList.get(i).getString("END_TIME"));		//9
-				vpd.put("var10", userList.get(i).getString("IP"));			//10
-				varList.add(vpd);
-			}
-			
-			dataMap.put("varList", varList);
-			
-			ObjectExcelView erv = new ObjectExcelView();
-			mv = new ModelAndView(erv,dataMap);
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}

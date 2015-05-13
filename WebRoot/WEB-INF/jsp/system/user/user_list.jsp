@@ -39,6 +39,7 @@
 					<td style="vertical-align:top;"> 
 					 	<select class="chzn-select" name="ROLE_ID" id="role_id" data-placeholder="请选择职位" style="vertical-align:top;width: 120px;">
 						<option value=""></option>
+						<option value="">全部</option>
 						<c:forEach items="${roleList}" var="role">
 							<option value="${role.ROLE_ID }" <c:if test="${pd.ROLE_ID==role.ROLE_ID}">selected</c:if>>${role.ROLE_NAME }</option>
 						</c:forEach>
@@ -249,7 +250,7 @@
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 					 if('${page.currentPage}' == '0'){
 						 top.jzts();
-						 setTimeout("self.location.reload()",100);
+						 setTimeout("self.location=self.location",100);
 					 }else{
 						 nextPage(${page.currentPage});
 					 }

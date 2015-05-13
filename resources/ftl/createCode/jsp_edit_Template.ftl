@@ -57,26 +57,29 @@
 	<form action="${objectNameLower}/${r"${msg }"}.do" name="Form" id="Form" method="post">
 		<input type="hidden" name="${objectNameUpper}_ID" id="${objectNameUpper}_ID" value="${r"${pd."}${objectNameUpper}_ID${r"}"}"/>
 		<div id="zhongxin">
-		<table>
+		<table id="table_report" class="table table-striped table-bordered table-hover">
 <#list fieldList as var>
 	<#if var[3] == "是">
 		<#if var[1] == 'Date'>
 			<tr>
+				<td style="width:70px;text-align: right;padding-top: 13px;">${var[2] }:</td>
 				<td><input class="span10 date-picker" name="${var[0] }" id="${var[0] }" value="${r"${pd."}${var[0] }${r"}"}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="${var[2] }" title="${var[2] }"/></td>
 			</tr>
 		<#elseif var[1] == 'Integer'>
 			<tr>
+				<td style="width:70px;text-align: right;padding-top: 13px;">${var[2] }:</td>
 				<td><input type="number" name="${var[0] }" id="${var[0] }" value="${r"${pd."}${var[0] }${r"}"}" maxlength="32" placeholder="这里输入${var[2] }" title="${var[2] }"/></td>
 			</tr>
 		<#else>
 			<tr>
+				<td style="width:70px;text-align: right;padding-top: 13px;">${var[2] }:</td>
 				<td><input type="text" name="${var[0] }" id="${var[0] }" value="${r"${pd."}${var[0] }${r"}"}" maxlength="32" placeholder="这里输入${var[2] }" title="${var[2] }"/></td>
 			</tr>
 		</#if>
 	</#if>
 </#list>
 			<tr>
-				<td style="text-align: center;">
+				<td style="text-align: center;" colspan="10">
 					<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
 					<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
 				</td>

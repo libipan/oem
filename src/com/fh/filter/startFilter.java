@@ -38,7 +38,7 @@ public class startFilter extends BaseController implements Filter{
 	
 	
 	//计时器
-	public void timersss() {
+	public void timer() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.HOUR_OF_DAY, 9); // 控制时
 		calendar.set(Calendar.MINUTE, 0); 		// 控制分

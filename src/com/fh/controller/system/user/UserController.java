@@ -28,7 +28,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
-import com.fh.entity.system.Menu;
 import com.fh.entity.system.Role;
 import com.fh.service.system.menu.MenuService;
 import com.fh.service.system.role.RoleService;
@@ -38,6 +37,7 @@ import com.fh.util.Const;
 import com.fh.util.FileDownload;
 import com.fh.util.FileUpload;
 import com.fh.util.GetPinyin;
+import com.fh.util.Jurisdiction;
 import com.fh.util.ObjectExcelRead;
 import com.fh.util.PageData;
 import com.fh.util.ObjectExcelView;
@@ -54,6 +54,7 @@ import com.fh.util.Tools;
 @RequestMapping(value="/user")
 public class UserController extends BaseController {
 	
+	String menuUrl = "user/listUsers.do"; //菜单地址(权限用)
 	@Resource(name="userService")
 	private UserService userService;
 	@Resource(name="roleService")
@@ -81,7 +82,7 @@ public class UserController extends BaseController {
 		pd.put("PASSWORD", new SimpleHash("SHA-1", pd.getString("USERNAME"), pd.getString("PASSWORD")).toString());
 		
 		if(null == userService.findByUId(pd)){
-			userService.saveU(pd);
+			if(Jurisdiction.buttonJurisdiction(menuUrl, "add")){userService.saveU(pd);} //判断新增权限
 			mv.addObject("msg","success");
 		}else{
 			mv.addObject("msg","failed");
@@ -94,76 +95,78 @@ public class UserController extends BaseController {
 	 * 判断用户名是否存在
 	 */
 	@RequestMapping(value="/hasU")
-	public void hasU(PrintWriter out){
+	@ResponseBody
+	public Object hasU(){
+		Map<String,String> map = new HashMap<String,String>();
+		String errInfo = "success";
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
 			if(userService.findByUId(pd) != null){
-				out.write("error");
-			}else{
-				out.write("success");
+				errInfo = "error";
 			}
-			out.close();
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
-		
+		map.put("result", errInfo);				//返回结果
+		return AppUtil.returnObject(new PageData(), map);
 	}
 	
 	/**
 	 * 判断邮箱是否存在
 	 */
 	@RequestMapping(value="/hasE")
-	public void hasE(PrintWriter out){
+	@ResponseBody
+	public Object hasE(){
+		Map<String,String> map = new HashMap<String,String>();
+		String errInfo = "success";
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
 			
 			if(userService.findByUE(pd) != null){
-				out.write("error");
-			}else{
-				out.write("success");
+				errInfo = "error";
 			}
-			out.close();
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
-		
+		map.put("result", errInfo);				//返回结果
+		return AppUtil.returnObject(new PageData(), map);
 	}
 	
 	/**
 	 * 判断编码是否存在
 	 */
 	@RequestMapping(value="/hasN")
-	public void hasN(PrintWriter out){
+	@ResponseBody
+	public Object hasN(){
+		Map<String,String> map = new HashMap<String,String>();
+		String errInfo = "success";
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
-			
 			if(userService.findByUN(pd) != null){
-				out.write("error");
-			}else{
-				out.write("success");
+				errInfo = "error";
 			}
-			out.close();
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
-		
+		map.put("result", errInfo);				//返回结果
+		return AppUtil.returnObject(new PageData(), map);
 	}
 	
 	/**
 	 * 修改用户
 	 */
 	@RequestMapping(value="/editU")
-	public ModelAndView editU(PrintWriter out) throws Exception{
+	public ModelAndView editU() throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		if(pd.getString("PASSWORD") != null && !"".equals(pd.getString("PASSWORD"))){
 			pd.put("PASSWORD", new SimpleHash("SHA-1", pd.getString("USERNAME"), pd.getString("PASSWORD")).toString());
 		}
-		userService.editU(pd);
+		if(Jurisdiction.buttonJurisdiction(menuUrl, "edit")){userService.editU(pd);}
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
@@ -284,7 +287,7 @@ public class UserController extends BaseController {
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
-			userService.deleteU(pd);
+			if(Jurisdiction.buttonJurisdiction(menuUrl, "del")){userService.deleteU(pd);}
 			out.write("success");
 			out.close();
 		} catch(Exception e){
@@ -308,7 +311,7 @@ public class UserController extends BaseController {
 			
 			if(null != USER_IDS && !"".equals(USER_IDS)){
 				String ArrayUSER_IDS[] = USER_IDS.split(",");
-				userService.deleteAllU(ArrayUSER_IDS);
+				if(Jurisdiction.buttonJurisdiction(menuUrl, "del")){userService.deleteAllU(ArrayUSER_IDS);}
 				pd.put("msg", "ok");
 			}else{
 				pd.put("msg", "no");
@@ -337,59 +340,57 @@ public class UserController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try{
-			
-			//检索条件===
-			String USERNAME = pd.getString("USERNAME");
-			if(null != USERNAME && !"".equals(USERNAME)){
-				USERNAME = USERNAME.trim();
-				pd.put("USERNAME", USERNAME);
+			if(Jurisdiction.buttonJurisdiction(menuUrl, "cha")){
+				//检索条件===
+				String USERNAME = pd.getString("USERNAME");
+				if(null != USERNAME && !"".equals(USERNAME)){
+					USERNAME = USERNAME.trim();
+					pd.put("USERNAME", USERNAME);
+				}
+				String lastLoginStart = pd.getString("lastLoginStart");
+				String lastLoginEnd = pd.getString("lastLoginEnd");
+				if(lastLoginStart != null && !"".equals(lastLoginStart)){
+					lastLoginStart = lastLoginStart+" 00:00:00";
+					pd.put("lastLoginStart", lastLoginStart);
+				}
+				if(lastLoginEnd != null && !"".equals(lastLoginEnd)){
+					lastLoginEnd = lastLoginEnd+" 00:00:00";
+					pd.put("lastLoginEnd", lastLoginEnd);
+				} 
+				//检索条件===
+				
+				Map<String,Object> dataMap = new HashMap<String,Object>();
+				List<String> titles = new ArrayList<String>();
+				
+				titles.add("用户名"); 		//1
+				titles.add("编号");  		//2
+				titles.add("姓名");			//3
+				titles.add("职位");			//4
+				titles.add("手机");			//5
+				titles.add("邮箱");			//6
+				titles.add("最近登录");		//7
+				titles.add("上次登录IP");	//8
+				
+				dataMap.put("titles", titles);
+				
+				List<PageData> userList = userService.listAllUser(pd);
+				List<PageData> varList = new ArrayList<PageData>();
+				for(int i=0;i<userList.size();i++){
+					PageData vpd = new PageData();
+					vpd.put("var1", userList.get(i).getString("USERNAME"));		//1
+					vpd.put("var2", userList.get(i).getString("NUMBER"));		//2
+					vpd.put("var3", userList.get(i).getString("NAME"));			//3
+					vpd.put("var4", userList.get(i).getString("ROLE_NAME"));	//4
+					vpd.put("var5", userList.get(i).getString("PHONE"));		//5
+					vpd.put("var6", userList.get(i).getString("EMAIL"));		//6
+					vpd.put("var7", userList.get(i).getString("LAST_LOGIN"));	//7
+					vpd.put("var8", userList.get(i).getString("IP"));			//8
+					varList.add(vpd);
+				}
+				dataMap.put("varList", varList);
+				ObjectExcelView erv = new ObjectExcelView();					//执行excel操作
+				mv = new ModelAndView(erv,dataMap);
 			}
-			String lastLoginStart = pd.getString("lastLoginStart");
-			String lastLoginEnd = pd.getString("lastLoginEnd");
-			if(lastLoginStart != null && !"".equals(lastLoginStart)){
-				lastLoginStart = lastLoginStart+" 00:00:00";
-				pd.put("lastLoginStart", lastLoginStart);
-			}
-			if(lastLoginEnd != null && !"".equals(lastLoginEnd)){
-				lastLoginEnd = lastLoginEnd+" 00:00:00";
-				pd.put("lastLoginEnd", lastLoginEnd);
-			} 
-			//检索条件===
-			
-			Map<String,Object> dataMap = new HashMap<String,Object>();
-			List<String> titles = new ArrayList<String>();
-			
-			titles.add("用户名"); 		//1
-			titles.add("编号");  		//2
-			titles.add("姓名");			//3
-			titles.add("职位");			//4
-			titles.add("手机");			//5
-			titles.add("邮箱");			//6
-			titles.add("最近登录");		//7
-			titles.add("上次登录IP");	//8
-			
-			dataMap.put("titles", titles);
-			
-			List<PageData> userList = userService.listAllUser(pd);
-			List<PageData> varList = new ArrayList<PageData>();
-			for(int i=0;i<userList.size();i++){
-				PageData vpd = new PageData();
-				vpd.put("var1", userList.get(i).getString("USERNAME"));		//1
-				vpd.put("var2", userList.get(i).getString("NUMBER"));		//2
-				vpd.put("var3", userList.get(i).getString("NAME"));			//3
-				vpd.put("var4", userList.get(i).getString("ROLE_NAME"));	//4
-				vpd.put("var5", userList.get(i).getString("PHONE"));		//5
-				vpd.put("var6", userList.get(i).getString("EMAIL"));		//6
-				vpd.put("var7", userList.get(i).getString("LAST_LOGIN"));	//7
-				vpd.put("var8", userList.get(i).getString("IP"));			//8
-				varList.add(vpd);
-			}
-			
-			dataMap.put("varList", varList);
-			
-			ObjectExcelView erv = new ObjectExcelView();					//执行excel操作
-			
-			mv = new ModelAndView(erv,dataMap);
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
@@ -425,7 +426,7 @@ public class UserController extends BaseController {
 			) throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
-		
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;}
 		if (null != file && !file.isEmpty()) {
 			String filePath = PathUtil.getClasspath() + Const.FILEPATHFILE;								//文件上传路径
 			String fileName =  FileUpload.fileUp(file, filePath, "userexcel");							//执行上传
