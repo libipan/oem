@@ -4,6 +4,7 @@
 			  <a class="brand"><small><i class="icon-leaf"></i> ${pd.SYSNAME}</small> </a>
 			  
 			  <ul class="nav ace-nav pull-right">
+				  <!--  
 					<li class="grey">
 						<a href="javascript:alert('预留功能,待开发');" class="dropdown-toggle" data-toggle="dropdown">
 							<i class="icon-tasks"></i>
@@ -176,10 +177,10 @@
 							</li>									
 	
 						</ul>
-					</li>
-					<li class="light-blue user-profile">
-						<a class="user-menu dropdown-toggle" href="javascript:alert('预留功能,待开发');" data-toggle="dropdown">
-							<img alt="FH" src="static/avatars/user.jpg" class="nav-user-photo" />
+					</li>-->
+					<li class="light-blue user-profile pull-right">
+						<a class="user-menu dropdown-toggle" href="" data-toggle="dropdown">
+							<img src="static/avatars/user.jpg" class="nav-user-photo" />
 							<span id="user_info">
 								
 							</span>
@@ -188,6 +189,7 @@
 						<ul id="user_menu" class="pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer">
 							<li><a onclick="editUserH();" style="cursor:pointer;"><i class="icon-user"></i> 修改资料</a></li>
 							<li id="systemset"><a onclick="editSys();" style="cursor:pointer;"><i class="icon-cog"></i> 系统设置</a></li>
+							<li id="adminmenu"><a onclick="menu();" style="cursor:pointer;"><i class="icon-cog"></i> 菜单设置</a></li>
 							<li id="productCode"><a onclick="productCode();" style="cursor:pointer;"><i class="icon-cogs"></i> 代码生成</a></li>
 							<li class="divider"></li>
 							<li><a href="logout"><i class="icon-off"></i> 退出</a></li>

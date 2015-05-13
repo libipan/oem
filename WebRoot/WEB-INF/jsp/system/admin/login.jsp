@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	String path = request.getContextPath();
@@ -71,10 +70,12 @@
 						</div>
 						-->
 	
-						<span class="pull-right" style="padding-right:3%;"><a
-							href="javascript:quxiao();" class="btn btn-success">取消</a></span> <span
-							class="pull-right"><a onclick="severCheck();"
-							class="flip-link btn btn-info" id="to-recover">登录</a></span>
+						<span class="pull-right" style="padding-right:3%;">
+							<a href="javascript:quxiao();" class="btn btn-success">取消</a>
+						</span>
+						<span class="pull-right">
+							<a onclick="severCheck();" class="flip-link btn btn-info" id="to-recover">登录</a>
+						</span>
 					</div>
 				</div>
 			</form>
@@ -107,15 +108,14 @@
 		// 登录，服务器校验
 		function severCheck(){
 			if(check()){
-				
 				var loginname = $("#loginname").val();
 				var password = $("#password").val();
 				//var code = "qq313596790fh"+loginname+",fh,"+password+"QQ978336446fh"+",fh,"+$("#code").val();
-				var code = loginname+",lbp,"+password;
+				var keydata = loginname+",lbp,"+password;
 				$.ajax({
 					type: "POST",
 					url: 'login_login',
-			    	data: {KEYDATA:code,tm:new Date().getTime()},
+			    	data: {KEYDATA:keydata,tm:new Date().getTime()},
 					dataType:'json',
 					cache: false,
 					success: function(data){
@@ -165,35 +165,32 @@
 
 		//客户端校验
 		function check() {
-
+			// 用户名
 			if ($("#loginname").val() == "") {
-
 				$("#loginname").tips({
 					side : 2,
 					msg : '用户名不得为空',
 					bg : '#AE81FF',
 					time : 3
 				});
-
 				$("#loginname").focus();
 				return false;
 			} else {
 				$("#loginname").val(jQuery.trim($('#loginname').val()));
 			}
-
+			// 密码
 			if ($("#password").val() == "") {
-
 				$("#password").tips({
 					side : 2,
 					msg : '密码不得为空',
 					bg : '#AE81FF',
 					time : 3
 				});
-
 				$("#password").focus();
 				return false;
 			}
-			if ($("#code").val() == "") {
+			// 验证码
+			/*if ($("#code").val() == "") {
 
 				$("#code").tips({
 					side : 1,
@@ -205,7 +202,8 @@
 				$("#code").focus();
 				return false;
 			}
-
+			*/
+			// 提示
 			$("#loginbox").tips({
 				side : 1,
 				msg : '正在登录 , 请稍后 ...',

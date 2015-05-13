@@ -1,41 +1,9 @@
+// 设置base路径
 var locat = (window.location+'').split('/'); 
 $(function(){if('main'== locat[3]){locat =  locat[0]+'//'+locat[2];}else{locat =  locat[0]+'//'+locat[2]+'/'+locat[3];};});
 
-
-//菜单状态切换
-var fmid = "fhindex";
-var mid = "fhindex";
-function siMenu(id,fid,MENU_NAME,MENU_URL){
-	if(id != mid){
-		$("#"+mid).removeClass();
-		mid = id;
-	}
-	if(fid != fmid){
-		$("#"+fmid).removeClass();
-		fmid = fid;
-	}
-	$("#"+fid).attr("class","active open");
-	$("#"+id).attr("class","active");
-	top.mainFrame.tabAddHandler(id,MENU_NAME,MENU_URL);
-	if(MENU_URL != "druid/index.html"){
-		jzts();
-	}
-}
-
-$(function(){
-
-	//换肤
-	$("#skin-colorpicker").ace_colorpicker().on("change",function(){
-		var b=$(this).find("option:selected").data("class");
-		hf(b);
-		var url = locat+'/head/setSKIN.do?SKIN='+b+'&tm='+new Date().getTime();
-		$.get(url,function(data){});
-	
-	});
-});
-
 var USER_ID;
-
+// 获取头部信息
 $(function(){
 	$.ajax({
 		type: "POST",
@@ -61,14 +29,45 @@ $(function(){
 					 $("#systemset").hide();	//隐藏系统设置
 					 $("#productCode").hide();	//隐藏代码生成
 				 }
-				 
 			 });
 		}
 	});
 });
 
-function hf(b){
+// 皮肤设置
+$(function(){
+	//换肤
+	$("#skin-colorpicker").ace_colorpicker().on("change",function(){
+		var b=$(this).find("option:selected").data("class");
+		hf(b);
+		var url = locat+'/head/setSKIN.do?SKIN='+b+'&tm='+new Date().getTime();
+		$.get(url,function(data){});
 	
+	});
+});
+
+//菜单状态切换
+var fmid = "fhindex";
+var mid = "fhindex";
+function siMenu(id,fid,MENU_NAME,MENU_URL){
+	if(id != mid){
+		$("#"+mid).removeClass();
+		mid = id;
+	}
+	if(fid != fmid){
+		$("#"+fmid).removeClass();
+		fmid = fid;
+	}
+	$("#"+fid).attr("class","active open");
+	$("#"+id).attr("class","active");
+	top.mainFrame.tabAddHandler(id,MENU_NAME,MENU_URL);
+	if(MENU_URL != "druid/index.html"){
+		jzts();
+	}
+}
+
+// 换肤function
+function hf(b){
 	var a=$(document.body);
 	a.attr("class",a.hasClass("navbar-fixed")?"navbar-fixed":"");
 	if(b!="default"){

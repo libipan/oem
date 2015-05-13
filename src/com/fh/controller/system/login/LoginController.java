@@ -206,6 +206,7 @@ public class LoginController extends BaseController {
 	/**
 	 * 访问系统首页
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/main/{changeMenu}")
 	public ModelAndView login_index(@PathVariable("changeMenu") String changeMenu){
 		ModelAndView mv = this.getModelAndView();
@@ -219,7 +220,6 @@ public class LoginController extends BaseController {
 			
 			User user = (User)session.getAttribute(Const.SESSION_USER);
 			if (user != null) {
-				
 				User userr = (User)session.getAttribute(Const.SESSION_USERROL);
 				if(null == userr){
 					user = userService.getUserAndRoleById(user.getUSER_ID());
