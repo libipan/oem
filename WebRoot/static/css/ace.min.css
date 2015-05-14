@@ -371,7 +371,7 @@ body:before {
 	top: 0;
 	z-index: -1;
 	background-color: #D7E5E5;
-	border-right: 1px solid #CCC
+	border-right: 2px solid #8A79CD
 }
 
 #sidebar {
@@ -496,7 +496,7 @@ li [class ^="icon-"],.nav-list li [class ^="icon-"],li [class *=" icon-"],.nav-l
 }
 
 .nav-list>li>a:hover {
-	background-color: #ccc;
+	background-color: #e6e6e6;
 	color: #1963aa
 }
 
@@ -540,7 +540,7 @@ li [class ^="icon-"],.nav-list li [class ^="icon-"],li [class *=" icon-"],.nav-l
 
 .nav-list>li.active>a:hover
 	{
-	background-color: #ccc;
+	background-color: #e6e6e6;
 	color: #0b6cbc;
 	font-weight: bold;
 	font-size: 13px
@@ -656,7 +656,7 @@ li [class ^="icon-"],.nav-list li [class ^="icon-"],li [class *=" icon-"],.nav-l
 
 .nav-list>li>.submenu>li>a:hover {
 	text-decoration: none;
-	background-color: #ccc;
+	background-color: #e6e6e6;
 	color: #4b88b7
 }
 
@@ -774,7 +774,7 @@ li [class ^="icon-"],.nav-list li [class ^="icon-"],li [class *=" icon-"],.nav-l
 	width: 158px;
 	height: 39px;
 	line-height: 38px;
-	background-color: #f5f5f5;
+	background-color: #d8d8da;
 	z-index: 121;
 	box-shadow: 2px 1px 2px 0 rgba(0, 0, 0, 0.2);
 	border: 1px solid #CCC;

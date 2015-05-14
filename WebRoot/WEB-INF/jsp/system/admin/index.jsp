@@ -67,10 +67,7 @@
 						</div>
 						<span>&nbsp; 选择皮肤</span>
 					</div>
-					<div>
-						<label><input type='checkbox' name='menusf' id="menusf"
-							onclick="menusf();" /><span class="lbl" style="padding-top: 5px;">菜单缩放</span></label>
-					</div>
+					
 				</div>
 			</div>
 			<!--/#ace-settings-container-->
@@ -88,7 +85,6 @@
 	<script src="static/js/ace.min.js"></script>
 	<!-- 引入 -->
 	<script type="text/javascript" src="static/js/jquery.cookie.js"></script>
-	<script type="text/javascript" src="static/js/myjs/menusf.js"></script>
 	<!--引入属于此页面的js -->
 	<script type="text/javascript" src="static/js/myjs/index.js"></script>
 </body>
