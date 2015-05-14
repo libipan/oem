@@ -7,9 +7,10 @@ function cmainFrame() {
 	var bkbgjz = document.getElementById("bkbgjz");
 	bkbgjz.style.height = (bheight - 41) + 'px';
 }
-
 cmainFrame();
 window.onresize = function() {
 	cmainFrame();
 };
+
+// 加载中。。。
 jzts();

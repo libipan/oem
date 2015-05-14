@@ -945,7 +945,7 @@ li [class ^="icon-"],.nav-list li [class ^="icon-"],li [class *=" icon-"],.nav-l
 #ace-settings-container {
 	position: absolute;
 	right: 0;
-	top: 50px;
+	top: 10px;
 	z-index: 10
 }
 

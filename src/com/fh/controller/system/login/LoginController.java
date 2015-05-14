@@ -290,11 +290,6 @@ public class LoginController extends BaseController {
 				if(null == session.getAttribute(Const.SESSION_QX)){
 					session.setAttribute(Const.SESSION_QX, this.getUQX(session));	//按钮权限放到session中
 				}
-				
-				//FusionCharts 报表
-			 	String strXML = "<graph caption='前12个月订单销量柱状图' xAxisName='月份' yAxisName='值' decimalPrecision='0' formatNumberScale='0'><set name='2013-05' value='4' color='AFD8F8'/><set name='2013-04' value='0' color='AFD8F8'/><set name='2013-03' value='0' color='AFD8F8'/><set name='2013-02' value='0' color='AFD8F8'/><set name='2013-01' value='0' color='AFD8F8'/><set name='2012-01' value='0' color='AFD8F8'/><set name='2012-11' value='0' color='AFD8F8'/><set name='2012-10' value='0' color='AFD8F8'/><set name='2012-09' value='0' color='AFD8F8'/><set name='2012-08' value='0' color='AFD8F8'/><set name='2012-07' value='0' color='AFD8F8'/><set name='2012-06' value='0' color='AFD8F8'/></graph>" ;
-			 	mv.addObject("strXML", strXML);
-			 	//FusionCharts 报表
 			 	
 				mv.setViewName("system/admin/index");
 				mv.addObject("user", user);
@@ -327,8 +322,34 @@ public class LoginController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value="/login_default")
-	public String defaultPage(){
-		return "system/admin/default";
+	public ModelAndView defaultPage(){
+		ModelAndView mv = this.getModelAndView();
+		
+		//FusionCharts 报表
+	 	//String strXML = "<graph caption='前12个月订单销量柱状图' xAxisName='月份' yAxisName='值' decimalPrecision='0' formatNumberScale='0'><set name='2013-05' value='4' color='AFD8F8'/><set name='2013-04' value='0' color='AFD8F8'/><set name='2013-03' value='0' color='AFD8F8'/><set name='2013-02' value='0' color='AFD8F8'/><set name='2013-01' value='0' color='AFD8F8'/><set name='2012-01' value='0' color='AFD8F8'/><set name='2012-11' value='0' color='AFD8F8'/><set name='2012-10' value='0' color='AFD8F8'/><set name='2012-09' value='0' color='AFD8F8'/><set name='2012-08' value='0' color='AFD8F8'/><set name='2012-07' value='0' color='AFD8F8'/><set name='2012-06' value='0' color='AFD8F8'/></graph>" ;
+		String strXML = "";
+
+		strXML += "<graph caption='对比表' xAxisName='月份' yAxisName='值' decimalPrecision='0' formatNumberScale='0'>";
+		strXML += "<set name='1' value='462' color='AFD8F8'/>";
+		strXML += "<set name='2' value='857' color='F6BD0F'/>";
+		strXML += "<set name='3' value='671' color='8BBA00'/>";
+		strXML += "<set name='4' value='494' color='FF8E46'/>";
+		strXML += "<set name='5' value='761' color='008E8E'/>";
+		strXML += "<set name='6' value='960' color='D64646'/>";
+		strXML += "<set name='7' value='629' color='8E468E'/>";
+		strXML += "<set name='8' value='622' color='588526'/>";
+		strXML += "<set name='9' value='376' color='B3AA00'/>";
+		strXML += "<set name='10' value='494' color='008ED6'/>";
+		strXML += "<set name='11' value='761' color='9D080D'/>";
+		strXML += "<set name='12' value='960' color='A186BE'/>";
+		strXML += "</graph>";
+		
+		mv.addObject("strXML", strXML);
+	 	//FusionCharts 报表
+		
+		mv.setViewName("system/admin/default");
+		
+		return mv;
 	}
 	
 	/**

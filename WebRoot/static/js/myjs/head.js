@@ -17,7 +17,7 @@ $(function(){
 			 $.each(data.list, function(i, list){
 				 
 				 //登陆者资料
-				 $("#user_info").html('<small>Welcome</small> '+list.NAME+'');
+				 $("#user_info").html("<small>Welcome！！！</small>【<span style='color:#FEE672;'>"+list.NAME+"</span>】");
 				 
 				 
 				 USER_ID = list.USER_ID;//用户ID
