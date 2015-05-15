@@ -626,7 +626,11 @@ li [class ^="icon-"],.nav-list li [class ^="icon-"],li [class *=" icon-"],.nav-l
 	padding: 0;
 	position: relative;
 	background-color: #FFF;
-	border-top: 1px solid #e5e5e5
+	-webkit-box-shadow: 0px -1px 10px #757575;/*safari或chrome*/
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#757575,direction=120,strength=2);/*ie*/
+	-moz-box-shadow: 0px -1px 10px #757575;/*firefox*/
+	-webkit-box-shadow: 0px -1px 10px #757575;/*safari或chrome*/
+	box-shadow:0px -1px 10px #757575;/*opera或ie9*/
 }
 
 .nav-list>li>.submenu>li {
