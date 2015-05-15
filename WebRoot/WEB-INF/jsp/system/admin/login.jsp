@@ -23,7 +23,7 @@
 			<form action="" method="post" name="loginForm" id="loginForm">
 				<div class="control-group normal_text">
 					<h3>
-						企业生产管理系统
+						${pd.SYSNAME}
 						<!-- <img src="static/login/logo.png" alt="Logo" /> -->
 					</h3>
 				</div>

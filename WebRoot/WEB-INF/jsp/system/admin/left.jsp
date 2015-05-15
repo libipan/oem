@@ -7,7 +7,7 @@
 		<div id="sidebar-shortcuts">
 			<!-- 未缩放，左侧顶上 -->
 			<div id="sidebar-shortcuts-large">
-				<button class="btn btn-small btn-success" onclick="changeMenu();" title="切换菜单"><i class="icon-pencil"></i></button>
+				<button class="btn btn-small btn-success" onclick="changeMenu();" title="切换菜单"><i class="icon-exchange"></i></button>
 				<button class="btn btn-small btn-info" title="UI实例" onclick="window.open('<%=basePathl%>static/UI_new');"><i class="icon-eye-open"></i></button>
 				<button class="btn btn-small btn-warning" title="数据字典" id="adminzidian" onclick="zidian();"><i class="icon-book"></i></button>
 			</div>
@@ -24,7 +24,7 @@
 		<!-- menu list -->
 		<ul class="nav nav-list">
 			<li class="active" id="fhindex">
-			  <a href="main/index"><i class="icon-dashboard"></i><span>后台首页</span></a>
+			  <a href="main/index"><i class="icon-home"></i><span>后台首页</span></a>
 			</li>
 
 			<c:forEach items="${menuList}" var="menu">
