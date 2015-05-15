@@ -318,6 +318,7 @@ public class PicturesController extends BaseController {
 	}
 	
 	/* ===============================权限================================== */
+	@SuppressWarnings("unchecked")
 	public Map<String, String> getHC(){
 		Subject currentUser = SecurityUtils.getSubject();  //shiro管理的session
 		Session session = currentUser.getSession();

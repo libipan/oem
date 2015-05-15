@@ -34,7 +34,7 @@
 		});
 		tab.add( {
 			id :'tab1_index1',
-			title :"主页",
+			title :"首页",
 			url :"<%=basePath%>login_default.do",
 			isClosed :false
 		});
