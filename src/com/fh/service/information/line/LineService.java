@@ -41,6 +41,7 @@ public class LineService {
 	/*
 	*列表
 	*/
+	@SuppressWarnings("unchecked")
 	public List<PageData> list(Page page)throws Exception{
 		return (List<PageData>)dao.findForList("LineMapper.datalistPage", page);
 	}
@@ -48,6 +49,7 @@ public class LineService {
 	/*
 	*列表(全部)
 	*/
+	@SuppressWarnings("unchecked")
 	public List<PageData> listAll(PageData pd)throws Exception{
 		return (List<PageData>)dao.findForList("LineMapper.listAll", pd);
 	}

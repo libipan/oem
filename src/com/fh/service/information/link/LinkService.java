@@ -19,6 +19,7 @@ public class LinkService {
 	/*
 	*列表
 	*/
+	@SuppressWarnings("unchecked")
 	public List<PageData> list(Page page)throws Exception{
 		return (List<PageData>) dao.findForList("LinkMapper.linklistPage", page);
 	}

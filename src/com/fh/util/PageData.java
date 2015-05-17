@@ -8,6 +8,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class PageData extends HashMap implements Map{
 	
 	private static final long serialVersionUID = 1L;
@@ -63,7 +64,6 @@ public class PageData extends HashMap implements Map{
 		return (String)get(key);
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public Object put(Object key, Object value) {
 		return map.put(key, value);
@@ -103,7 +103,6 @@ public class PageData extends HashMap implements Map{
 		return map.keySet();
 	}
 
-	@SuppressWarnings("unchecked")
 	public void putAll(Map t) {
 		// TODO Auto-generated method stub
 		map.putAll(t);

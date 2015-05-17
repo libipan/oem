@@ -17,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
 import com.fh.service.system.dictionaries.DictionariesService;
-import com.fh.service.system.menu.MenuService;
 import com.fh.util.AppUtil;
 import com.fh.util.PageData;
 /** 
@@ -30,8 +29,6 @@ import com.fh.util.PageData;
 @RequestMapping(value="/dictionaries")
 public class DictionariesController extends BaseController {
 	
-	@Resource(name="menuService")
-	private MenuService menuService;
 	@Resource(name="dictionariesService")
 	private DictionariesService dictionariesService;
 	

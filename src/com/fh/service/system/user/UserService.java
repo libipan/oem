@@ -12,6 +12,7 @@ import com.fh.entity.system.User;
 import com.fh.util.PageData;
 
 
+@SuppressWarnings("unchecked")
 @Service("userService")
 public class UserService {
 

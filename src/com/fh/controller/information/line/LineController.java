@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -24,14 +23,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.base.BaseController;
-import com.fh.entity.system.Menu;
 import com.fh.entity.Page;
-import com.fh.util.AppUtil;
-import com.fh.util.ObjectExcelView;
-import com.fh.util.Const;
-import com.fh.util.PageData;
-import com.fh.util.Tools;
 import com.fh.service.information.line.LineService;
+import com.fh.util.AppUtil;
+import com.fh.util.Const;
+import com.fh.util.ObjectExcelView;
+import com.fh.util.PageData;
 
 /** 
  * 类名称：LineController
@@ -175,7 +172,7 @@ public class LineController extends BaseController {
 	@ResponseBody
 	public Object deleteAll() {
 		logBefore(logger, "批量删除Line");
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<String, Object>();
 		PageData pd = new PageData();
 		try {
 			pd = this.getPageData();
@@ -240,6 +237,7 @@ public class LineController extends BaseController {
 	}
 	
 	/* ===============================权限================================== */
+	@SuppressWarnings("unchecked")
 	public Map<String, String> getHC(){
 		Subject currentUser = SecurityUtils.getSubject();  //shiro管理的session
 		Session session = currentUser.getSession();

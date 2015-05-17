@@ -18,14 +18,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
-import com.fh.entity.system.Menu;
-import com.fh.entity.system.Role;
 import com.fh.service.information.news.NewsService;
 import com.fh.util.Const;
 import com.fh.util.DateUtil;
 import com.fh.util.DelAllFile;
 import com.fh.util.Freemarker;
-import com.fh.util.MD5;
 import com.fh.util.PageData;
 import com.fh.util.PathUtil;
 
@@ -88,8 +85,6 @@ public class NewsController extends BaseController{
 	@RequestMapping(value="/goAdd")
 	public ModelAndView goAdd(){
 		ModelAndView mv = new ModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
 		try {
 			mv.setViewName("information/news/news_edit");
 			mv.addObject("msg", "save");
@@ -190,7 +185,6 @@ public class NewsController extends BaseController{
 	 */
 	@RequestMapping(value="/delete")
 	public void delete(PrintWriter out)throws Exception{
-		ModelAndView mv = new ModelAndView();
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
@@ -209,7 +203,6 @@ public class NewsController extends BaseController{
 	 */
 	@RequestMapping(value="/createHtml")
 	public void createHtml(PrintWriter out)throws Exception{
-		ModelAndView mv = new ModelAndView();
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
@@ -231,6 +224,7 @@ public class NewsController extends BaseController{
 	
 	
 	/* ===============================权限================================== */
+	@SuppressWarnings("unchecked")
 	public Map<String, String> getHC(){
 		Subject currentUser = SecurityUtils.getSubject();  //shiro管理的session
 		Session session = currentUser.getSession();

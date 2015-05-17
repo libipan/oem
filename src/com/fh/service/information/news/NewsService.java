@@ -20,6 +20,7 @@ public class NewsService {
 	/*
 	*列表
 	*/
+	@SuppressWarnings("unchecked")
 	public List<PageData> list(Page page)throws Exception{
 		return (List<PageData>) dao.findForList("NewsMapper.newslistPage", page);
 	}
@@ -55,6 +56,7 @@ public class NewsService {
 	/*
 	*列表
 	*/
+	@SuppressWarnings("unchecked")
 	public List<PageData> newslist(PageData pd)throws Exception{
 		return (List<PageData>) dao.findForList("NewsMapper.newslist", pd);
 	}

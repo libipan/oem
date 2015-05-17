@@ -12,6 +12,7 @@ import org.apache.commons.collections.ComparatorUtils;
 import org.apache.commons.collections.comparators.ComparableComparator;
 import org.apache.commons.collections.comparators.ComparatorChain;
 
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class SortUtil {
 	public static void main(String[] args) {
 		System.out.println(testMapSort());
@@ -63,8 +64,6 @@ public class SortUtil {
 	}
 	
 	public static List testMapSort(){
-		List sortList = new ArrayList();
-		
 		Map map = new HashMap();
 		map.put("name", "1");
 		map.put("age", "1");

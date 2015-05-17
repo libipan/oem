@@ -248,8 +248,7 @@ public class TwoDimensionCode {
 				+ "\nEMail [ sjsky007@gmail.com ]";*/
 		
 		String encoderContent = "http://www.baidu.com";
-		TwoDimensionCode handler = new TwoDimensionCode();
-		handler.encoderQRCode(encoderContent, imgPath, "png");
+		TwoDimensionCode.encoderQRCode(encoderContent, imgPath, "png");
 		// try {
 		// OutputStream output = new FileOutputStream(imgPath);
 		// handler.encoderQRCode(content, output);

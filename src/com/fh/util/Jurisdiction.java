@@ -20,6 +20,7 @@ public class Jurisdiction {
 	 * @param menuUrl  菜单路径
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public static boolean hasJurisdiction(String menuUrl){
 		//判断是否拥有当前点击菜单的权限（内部过滤,防止通过url进入跳过菜单权限）
 		/**
@@ -29,8 +30,7 @@ public class Jurisdiction {
 		//shiro管理的session
 		Subject currentUser = SecurityUtils.getSubject();  
 		Session session = currentUser.getSession();
-		Boolean b = true;
-		List<Menu> menuList = (List)session.getAttribute(Const.SESSION_allmenuList); //获取菜单列表
+		List<Menu> menuList = (List<Menu>)session.getAttribute(Const.SESSION_allmenuList); //获取菜单列表
 		
 		for(int i=0;i<menuList.size();i++){
 			for(int j=0;j<menuList.get(i).getSubMenu().size();j++){
@@ -65,6 +65,7 @@ public class Jurisdiction {
 	 * @param type  类型(add、del、edit、cha)
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public static boolean buttonJurisdiction(String menuUrl, String type){
 		//判断是否拥有当前点击菜单的权限（内部过滤,防止通过url进入跳过菜单权限）
 		/**
@@ -74,8 +75,7 @@ public class Jurisdiction {
 		//shiro管理的session
 		Subject currentUser = SecurityUtils.getSubject();  
 		Session session = currentUser.getSession();
-		Boolean b = true;
-		List<Menu> menuList = (List)session.getAttribute(Const.SESSION_allmenuList); //获取菜单列表
+		List<Menu> menuList = (List<Menu>)session.getAttribute(Const.SESSION_allmenuList); //获取菜单列表
 		
 		for(int i=0;i<menuList.size();i++){
 			for(int j=0;j<menuList.get(i).getSubMenu().size();j++){

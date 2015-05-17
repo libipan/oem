@@ -24,7 +24,7 @@
 		<!-- menu list -->
 		<ul class="nav nav-list">
 			<li class="active" id="fhindex">
-			  <a href="main/index"><i class="icon-home"></i><span>后台首页</span></a>
+			  <a href="main/index"><i class="icon-home"></i><span> 首 页</span></a>
 			</li>
 
 			<c:forEach items="${menuList}" var="menu">

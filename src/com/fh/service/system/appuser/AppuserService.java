@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.fh.dao.DaoSupport;
 import com.fh.entity.Page;
-import com.fh.entity.system.User;
 import com.fh.util.PageData;
 
 
@@ -74,6 +73,7 @@ public class AppuserService {
 	/*
 	*用户列表(全部)
 	*/
+	@SuppressWarnings("unchecked")
 	public List<PageData> listAllUser(PageData pd)throws Exception{
 		return (List<PageData>) dao.findForList("AppuserMapper.listAllUser", pd);
 	}
@@ -81,6 +81,7 @@ public class AppuserService {
 	/*
 	*用户列表(用户组)
 	*/
+	@SuppressWarnings("unchecked")
 	public List<PageData> listPdPageUser(Page page)throws Exception{
 		return (List<PageData>) dao.findForList("AppuserMapper.userlistPage", page);
 	}

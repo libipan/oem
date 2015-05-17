@@ -33,6 +33,7 @@ public class MenuService{
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Menu> listAllParentMenu() throws Exception {
 		return (List<Menu>) dao.findForList("MenuMapper.listAllParentMenu", null);
 		
@@ -47,6 +48,7 @@ public class MenuService{
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Menu> listSubMenuByParentId(String parentId) throws Exception {
 		return (List<Menu>) dao.findForList("MenuMapper.listSubMenuByParentId", parentId);
 		
@@ -61,6 +63,7 @@ public class MenuService{
 		return rl;
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Menu> listAllSubMenu() throws Exception{
 		return (List<Menu>) dao.findForList("MenuMapper.listAllSubMenu", null);
 		

@@ -27,6 +27,7 @@ import com.fh.util.Tools;
  */
 public class ObjectExcelView extends AbstractExcelView{
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void buildExcelDocument(Map<String, Object> model,
 			HSSFWorkbook workbook, HttpServletRequest request,

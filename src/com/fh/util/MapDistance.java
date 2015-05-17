@@ -46,6 +46,7 @@ public class MapDistance {
 	 * 最大经度 maxLng 
 	 * 最大纬度 minLat
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static Map getAround(String latStr, String lngStr, String raidus) {
 		Map map = new HashMap();
 		

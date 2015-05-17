@@ -110,6 +110,7 @@ public class AppUtil  {
 		return listReturn;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public static Object returnObject(PageData pd, Map map){
 		if(pd.containsKey("callback")){
 			String callback = pd.get("callback").toString();

@@ -312,6 +312,7 @@ public class Uploader {
 
 	}
 
+	@SuppressWarnings("unused")
 	private byte[] getFileOutputStream(InputStream in) {
 
 		try {

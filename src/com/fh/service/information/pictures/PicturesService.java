@@ -41,6 +41,7 @@ public class PicturesService {
 	/*
 	*列表
 	*/
+	@SuppressWarnings("unchecked")
 	public List<PageData> list(Page page)throws Exception{
 		return (List<PageData>)dao.findForList("PicturesMapper.datalistPage", page);
 	}
@@ -48,6 +49,7 @@ public class PicturesService {
 	/*
 	*列表(全部)
 	*/
+	@SuppressWarnings("unchecked")
 	public List<PageData> listAll(PageData pd)throws Exception{
 		return (List<PageData>)dao.findForList("PicturesMapper.listAll", pd);
 	}
@@ -69,6 +71,7 @@ public class PicturesService {
 	/*
 	* 批量获取
 	*/
+	@SuppressWarnings("unchecked")
 	public List<PageData> getAllById(String[] ArrayDATA_IDS)throws Exception{
 		return (List<PageData>)dao.findForList("PicturesMapper.getAllById", ArrayDATA_IDS);
 	}

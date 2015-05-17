@@ -20,6 +20,7 @@ public class FeaturedService {
 	/*
 	*列表
 	*/
+	@SuppressWarnings("unchecked")
 	public List<PageData> list(Page page)throws Exception{
 		return (List<PageData>) dao.findForList("FeaturedMapper.featuredlistPage", page);
 	}

@@ -19,6 +19,7 @@ public class AndorraService {
 	/*
 	*列表
 	*/
+	@SuppressWarnings("unchecked")
 	public List<PageData> list(Page page)throws Exception{
 		return (List<PageData>) dao.findForList("AndorraMapper.andorralistPage", page);
 	}

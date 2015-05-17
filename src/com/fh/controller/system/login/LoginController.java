@@ -237,6 +237,7 @@ public class LoginController extends BaseController {
 				
 				if(null == session.getAttribute(Const.SESSION_allmenuList)){
 					allmenuList = menuService.listAllMenu();
+					// 设置该用户角色是否有菜单权限，即设置hasMenu：true or false
 					if(Tools.notEmpty(roleRights)){
 						for(Menu menu : allmenuList){
 							menu.setHasMenu(RightsHelper.testRights(roleRights, menu.getMENU_ID()));
@@ -253,7 +254,7 @@ public class LoginController extends BaseController {
 					allmenuList = (List<Menu>)session.getAttribute(Const.SESSION_allmenuList);
 				}
 				
-				//切换菜单=====
+				//***********************************切换菜单*********************************************
 				List<Menu> menuList = new ArrayList<Menu>();
 				//if(null == session.getAttribute(Const.SESSION_menuList) || ("yes".equals(pd.getString("changeMenu")))){
 				if(null == session.getAttribute(Const.SESSION_menuList) || ("yes".equals(changeMenu))){
@@ -285,7 +286,7 @@ public class LoginController extends BaseController {
 				}else{
 					menuList = (List<Menu>)session.getAttribute(Const.SESSION_menuList);
 				}
-				//切换菜单=====
+				// **********************************切换菜单end*******************************************
 				
 				if(null == session.getAttribute(Const.SESSION_QX)){
 					session.setAttribute(Const.SESSION_QX, this.getUQX(session));	//按钮权限放到session中

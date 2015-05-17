@@ -16,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
-import com.fh.entity.system.Menu;
 import com.fh.service.information.featured.FeaturedService;
 import com.fh.util.Const;
 import com.fh.util.DateUtil;
@@ -76,8 +75,6 @@ public class FeaturedController extends BaseController{
 	@RequestMapping(value="/goAdd")
 	public ModelAndView goAdd(){
 		ModelAndView mv = new ModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
 		try {
 			mv.setViewName("information/featured/featured_edit");
 			mv.addObject("msg", "save");
@@ -153,7 +150,6 @@ public class FeaturedController extends BaseController{
 	 */
 	@RequestMapping(value="/delete")
 	public void delete(PrintWriter out)throws Exception{
-		ModelAndView mv = new ModelAndView();
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
@@ -166,6 +162,7 @@ public class FeaturedController extends BaseController{
 		
 	}
 	/* ===============================权限================================== */
+	@SuppressWarnings("unchecked")
 	public Map<String, String> getHC(){
 		Subject currentUser = SecurityUtils.getSubject();  //shiro管理的session
 		Session session = currentUser.getSession();

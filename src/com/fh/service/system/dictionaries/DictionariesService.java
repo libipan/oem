@@ -43,6 +43,7 @@ public class DictionariesService{
 	}
 	
 	//列出同一父类id下的数据
+	@SuppressWarnings("unchecked")
 	public List<PageData> dictlistPage(Page page) throws Exception {
 		return (List<PageData>) dao.findForList("DictionariesMapper.dictlistPage", page);
 		

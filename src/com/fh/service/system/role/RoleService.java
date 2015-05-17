@@ -10,6 +10,7 @@ import com.fh.dao.DaoSupport;
 import com.fh.entity.system.Role;
 import com.fh.util.PageData;
 
+@SuppressWarnings("unchecked")
 @Service("roleService")
 public class RoleService{
 

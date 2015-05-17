@@ -10,7 +10,7 @@ import com.fh.dao.DaoSupport;
 import com.fh.entity.Page;
 import com.fh.util.PageData;
 
-
+@SuppressWarnings("unchecked")
 @Service("commandService")
 public class CommandService {
 
