@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<base href="<%=basePath%>">
+		<base href="<%=basePath%>"> 
 		<meta charset="utf-8" />
 		<title></title>
 		 
