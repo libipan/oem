@@ -395,21 +395,21 @@ public class LoginController extends BaseController {
 	 * 获取用户权限
 	 */
 	public Map<String, String> getUQX(Session session){
-		PageData pd = new PageData();
 		Map<String, String> map = new HashMap<String, String>();
 		try {
+			PageData pd = new PageData();
 			String USERNAME = session.getAttribute(Const.SESSION_USERNAME).toString();
 			pd.put(Const.SESSION_USERNAME, USERNAME);
-			String ROLE_ID = userService.findByUId(pd).get("ROLE_ID").toString();
-			
-			pd.put("ROLE_ID", ROLE_ID);
+			String roleId = userService.findByUId(pd).get("ROLE_ID").toString();
+			pd.put("ROLE_ID", roleId);
 			
 			PageData pd2 = new PageData();
 			pd2.put(Const.SESSION_USERNAME, USERNAME);
-			pd2.put("ROLE_ID", ROLE_ID);
+			pd2.put("ROLE_ID", roleId);
 			
+			// 根据roleId获取角色信息
 			pd = roleService.findObjectById(pd);																
-				
+			// 通过当前登录用的角色id获取管理权限数据	
 			pd2 = roleService.findGLbyrid(pd2);
 			if(null != pd2){
 				map.put("FX_QX", pd2.get("FX_QX").toString());
@@ -419,7 +419,8 @@ public class LoginController extends BaseController {
 				map.put("QX3", pd2.get("QX3").toString());
 				map.put("QX4", pd2.get("QX4").toString());
 			
-				pd2.put("ROLE_ID", ROLE_ID);
+				pd2.put("ROLE_ID", roleId);
+				//通过当前登录用的角色id获取用户权限数据
 				pd2 = roleService.findYHbyrid(pd2);
 				map.put("C1", pd2.get("C1").toString());
 				map.put("C2", pd2.get("C2").toString());

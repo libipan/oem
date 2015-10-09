@@ -32,12 +32,12 @@ public class Jurisdiction {
 		Session session = currentUser.getSession();
 		List<Menu> menuList = (List<Menu>)session.getAttribute(Const.SESSION_allmenuList); //获取菜单列表
 		
-		for(int i=0;i<menuList.size();i++){
-			for(int j=0;j<menuList.get(i).getSubMenu().size();j++){
-				if(menuList.get(i).getSubMenu().get(j).getMENU_URL().split(".do")[0].equals(menuUrl.split(".do")[0])){
-					if(!menuList.get(i).getSubMenu().get(j).isHasMenu()){				//判断有无此菜单权限
+		for (int i = 0; i < menuList.size(); i++) {
+			for (int j = 0; j < menuList.get(i).getSubMenu().size(); j++) {
+				if (menuList.get(i).getSubMenu().get(j).getMENU_URL().split(".do")[0].equals(menuUrl.split(".do")[0])) {
+					if (!menuList.get(i).getSubMenu().get(j).isHasMenu()) { // 判断有无此菜单权限
 						return false;
-					}else{																//按钮判断
+					} else {  //按钮判断
 						Map<String, String> map = (Map<String, String>)session.getAttribute(Const.SESSION_QX);//按钮权限
 						map.remove("add");
 						map.remove("del");
