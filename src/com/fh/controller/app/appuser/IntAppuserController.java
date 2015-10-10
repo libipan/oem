@@ -1,4 +1,4 @@
-package com.fh.controller.app.appuser;
+﻿package com.fh.controller.app.appuser;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fh.controller.base.BaseController;
 import com.fh.service.system.appuser.AppuserService;
 import com.fh.util.AppUtil;
-import com.fh.util.PageData;
+import com.fh.util.PageData; 
 import com.fh.util.Tools;
 
 
